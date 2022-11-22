@@ -23,3 +23,4 @@ Average time when pooling with 8 processors anfd threading with 5 workers= 417 s
 
 Pool 4 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 313.76759696006775 secs 
 9 , 10 , 10 , 10 , 10 , 9 , 10 , 10 , 9 , 
+Pool 4 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 313.2228775024414 secs 
