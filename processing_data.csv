@@ -203,3 +203,4 @@ ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time 
 ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 57664 csv files== 4046.491704940796 secs 
 
 
+ThreadPoolExecutor(max_workers=4) and ThreadPoolExecutor(max_workers=8) time taken to check 57664 csv files== 23.029633283615112 secs 
