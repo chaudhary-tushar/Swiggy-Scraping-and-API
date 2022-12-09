@@ -40,3 +40,4 @@ Pool 4 and ThreadPoolExecutor(max_workers=2) time taken to create 90 csv files==
 Average time when pooling with 4 processors anfd threading with 2 workers= 259 seconds and accuracy= 96%  
 
 using for loop and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 308.5763123035431 secs 
+10 , 9 , 9 , 9 , 9 , 9 , 9 , 9 , 10 , 
