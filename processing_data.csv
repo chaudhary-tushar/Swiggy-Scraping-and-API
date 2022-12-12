@@ -183,3 +183,4 @@ ThreadPoolExecutor(max_workers=4) and ThreadPoolExecutor(max_workers=8) time tak
 
 
 ThreadPoolExecutor(max_workers=4) and ThreadPoolExecutor(max_workers=8) time taken to check 59344 csv files== 0.08300137519836426 secs 
+
