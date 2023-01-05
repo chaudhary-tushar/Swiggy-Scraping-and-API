@@ -56,3 +56,4 @@ using ThreadPoolExecutor(max_workers=4) with ThreadPoolExecutor(max_workers=4) t
 9 , 9 , 10 , 10 , 9 , 10 , 10 , 10 , 10 , 
 
 Average time when using threading with 4 workers nested in threading with 4 workers = 254 seconds and accuracy = 97.7%
+
