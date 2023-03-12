@@ -5,6 +5,10 @@ from selenium.webdriver.common.keys import Keys
 import time
 import swiggy as sg
 import multiprocessing
+import os
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 from selenium.webdriver.common.by import By
@@ -15,6 +19,23 @@ def reslist(urq):
     driver.get(url)
     hname_ind=urq.rfind('/')
     hname=urq[hname_ind+1:]
+    H_name=hname.capitalize()
+    
+    wait = WebDriverWait(driver, 5)
+
+    # wait for the element to be clickable
+    element = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@aria-label='Open Sidebar']")))
+
+    # click the element
+    element.click()
+    #gee=driver.find_element(By.XPATH, "")
+    search_box = driver.find_element(By.XPATH, "//input[@placeholder='Search for area, street name..']")
+    #search_box.send_keys(Keys.ENTER)
+    search_box.send_keys(H_name)
+    print(f"//div[normalize-space()={H_name}]")
+    wait = WebDriverWait(driver, 5)
+    results=wait.until(EC.element_to_be_clickable((By.XPATH, f"//div[normalize-space()='{H_name}']")))
+    results.click()
     # search_box = driver.find_element(By.XPATH, "//input[@placeholder='Enter your delivery location']")
 
     # # Click the element
@@ -53,7 +74,11 @@ def reslist(urq):
     restaurant_names = soup.find_all('div', {'class': '_3XX_A'})
     restn=[]
     prename=[]
-    with open(f'restaurants_names_{hname}.txt', 'w',encoding='utf-8') as file:
+    folder_path='C:/Users/tusha/Desktop/vscode/SWIGGY/text_files'
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path) 
+    file_path=folder_path+'/'+ f"restaurants_names_{H_name}.txt"
+    with open(file_path, 'w',encoding='utf-8') as file:
         # Write a string to the file
         for name in restaurant_names:
             line=name.text
@@ -71,7 +96,9 @@ def reslist(urq):
 
     # Loop through each link and print its URL
     restl=[]
-    with open(f'restaurants_links_{hname}.txt', 'w',encoding='utf-16') as file1,open(f'prename_{hname}.txt','w',encoding='utf-16') as file2:
+    file_path1=folder_path+'/'+ f"restaurants_links_{H_name}.txt"
+    file_path2=folder_path+'/'+ f"prename_{H_name}.txt"
+    with open(file_path1, 'w',encoding='utf-16') as file1,open(file_path2,'w',encoding='utf-16') as file2:
         # Write a string to the file
         
         for link in links:
@@ -88,16 +115,15 @@ def reslist(urq):
                 
     print(len(restn),len(restl),len(prename))  
  
-# for i in range(2):
-#     sg.diffres(restl[i],prename[i]) 
-# processes=[] 
-# for i in range(10): 
-#     p=multiprocessing.Process(target=sg.diffres, args=(restl[i],prename[i]))
-#     processes.append(p)
-#     p.start()
     
-# for p in processes:
-#     p.join()
+        # processes=[] 
+        # for i in range(len(restl)): 
+        #     p=multiprocessing.Process(target=sg.diffres, args=(restl[i],prename[i],H_name,))
+        #     processes.append(p)
+        #     p.start()
+            
+        # for p in processes:
+        #     p.join()
     
     
 

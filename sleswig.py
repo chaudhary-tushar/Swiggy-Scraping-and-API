@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 def perres(url):
     # Set up the Selenium webdriver
     driver = webdriver.Chrome()
-    driver.get(url)
+    driver.get(url) 
 
     # Get the HTML source code of the page using Selenium
     html = driver.page_source
@@ -22,7 +22,7 @@ def perres(url):
         div_id = div.get('id')
         if div_id:
             dids.append(div) 
-            print(div_id)
+            #print(div_id)
             
 
 # Close the Selenium webdriver

@@ -3,15 +3,15 @@ import bs4
 import sleswig as sw
 import os
 
-def diffres(url,name):
+def diffres(url,name,cname):
 
     divs = sw.perres(url)[1:-1]
     cnt=0
     # Loop through each div and find all the paragraphs with class 'my-class'
-    folder_path='C:/Users/tusha/Desktop/vscode/PYTHON_PROJECTS/SWIGGY/menu'
+    folder_path='C:/Users/tusha/Desktop/vscode/SWIGGY/text_files/menus'
     if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-    file_path=folder_path+'/'+ f"{name}.txt"
+        os.makedirs(folder_path) 
+    file_path=folder_path+'/'+ f"{cname}_{name}.txt"
     
     with open(file_path,'w',encoding='utf-8') as file1:
         for div in divs:

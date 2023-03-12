@@ -27,7 +27,7 @@ def makelist():
         
 if __name__=="__main__":
     makelist()
-    five=cities[:5]
+    five=cities[:2]
     times=time.time()
     
     processes=[]
