@@ -103,7 +103,7 @@ def reslist(urq):
         
         for link in links:
             if(link.get('href')!=None and link.get('href')[0:5]=="/rest"  ): 
-                lkd=url+link.get('href')
+                lkd="https://www.swiggy.com"+link.get('href')
                 last_slash_index = lkd.rfind('/')
                 nline=lkd[last_slash_index + 1:last_slash_index +20]
                 neline=nline.replace("-","_")
