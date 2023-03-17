@@ -111,3 +111,4 @@ ThreadPoolExecutor(max_workers=8)and ThreadPoolExecutor(max_workers=8) time take
 ThreadPoolExecutor(max_workers=4)and ThreadPoolExecutor(max_workers=4) time taken to create 160 csv files== 232.93160152435303 secs 
 20 , 19 , 19 , 20 , 19 , 19 , 20 , 19 , 
 
+best time and accuracy till now. but no idea of max_workers since left to default.
