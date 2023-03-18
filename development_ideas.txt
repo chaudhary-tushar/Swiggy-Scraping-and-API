@@ -1,0 +1,36 @@
+try running the multimenu processing on gpu after completing the code
+
+time taken to build menus for 50 restaurants by nested multiprocessing = 187.36 seconds ,(max worker=10)=408.0758(did not build all 50)
+    using cpu count=185 secs
+time taken to by nested multiprocessing when data csv exists for the restaurants =0.920 seconds,1.0431s , (max worker=10)=1.2419, 1.1469
+    using cpu count=0.999 secs
+
+nested multiprocessing example=
+{
+    def primary function(link,cityname):
+        builds the menus
+    def pfunc caller(link array, cityname):
+        calls the primary function by multiprocessing
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            executor.map(menu, crlink, [city_name]*len(crlink))
+            executor.shutdown(wait=True)
+
+    if __name__=="__main__":
+        main processing
+        calls the pfunc caller which in turn calls primary function by multithreading
+        w=mp.Pool()
+        w.starmap(mpmenu,[(resit[_],cityn[_]) for _ in range(len(resit))])
+}
+
+
+
+
+
+
+time taken fro creating 50 data csv  by multiprocessing nested in fro loop ==170.85 secs,177.6931 secs
+time taken for checking 50 data csv by multiprocessing nested in for loop == 4.7379 secs, 5.4085 secs
+
+
+time taken for parsing 5 restaurants using pooling=104 secs
+
+time taken for parsing 5 restaurants using threading = 134 secs

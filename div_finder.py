@@ -1,10 +1,13 @@
 from selenium import webdriver
-from bs4 import BeautifulSoup
+from bs4 import  BeautifulSoup
+from webdriver_manager.chrome import ChromeDriverManager
 
 # this function can print all the menu of A RESTAURANT by getting all the divs 
 def perres(url):
     # Set up the Selenium webdriver
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    driver = webdriver.Chrome(options=options)
     driver.get(url) 
 
     # Get the HTML source code of the page using Selenium

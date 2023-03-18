@@ -1,6 +1,6 @@
 import requests
 import bs4
-import sleswig as sw
+import div_finder as sw
 import os
 
 def diffres(url,name,cname):
@@ -11,7 +11,7 @@ def diffres(url,name,cname):
     folder_path='C:/Users/tusha/Desktop/vscode/SWIGGY/text_files/menus'
     if not os.path.exists(folder_path):
         os.makedirs(folder_path) 
-    file_path=folder_path+'/'+ f"{cname}_{name}.txt"
+    file_path=folder_path+'/'+ f"{cname}_{name}.csv"
     
     with open(file_path,'w',encoding='utf-8') as file1:
         for div in divs:
