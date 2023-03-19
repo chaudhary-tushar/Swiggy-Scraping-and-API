@@ -34,8 +34,8 @@ with open('city.csv','r',encoding='utf-8') as file1:
         nity=mity.capitalize()
         bity.append(nity) 
 
-print(bity[:5])
-nity=bity[:5]
+print(bity[:20])
+nity=bity[:20]
 x=int(input("Enter choice 1 for counting 2 for deletion : "))
 if x==1:
     countcsv(nity)

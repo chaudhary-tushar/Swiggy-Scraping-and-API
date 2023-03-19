@@ -9,4 +9,43 @@ Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 
 Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 2.1379997730255127 secs   multiprocessing
 Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 0.017997264862060547 secs  for loop
 
-using mayaks's system configurations and net
+time taken from start to end for 50 restaurants is = 523.3299987316132
+time taken to parse 5 is 335.36901569366455time taken from start to end for 50 restaurants is = 41.526798725128174
+time taken to parse 5 cities is 354.1760342121124
+time taken from start to end for 50 restaurants is = 58.19551873207092
+time taken to parse 5 cities is 165.048321723938
+time taken from start to end for 50 restaurants is = 220.57888650894165
+time taken to parse 5 cities is 337.9534978866577
+time taken from start to end for 50 restaurants is = 360.1960070133209
+time taken for parsing and building menu is of 5 cities and 50 restaurants is = 698.2144541740417
+time taken to parse 5 cities is 298.98751854896545
+time taken from start to end for 50 restaurants is = 124.31599855422974
+time taken for parsing and building menu is of 5 cities and 50 restaurants is = 423.3635194301605
+
+time taken to parse 8 cities is 300.87604808807373
+time taken from start to end for 80 restaurants is = 398.73561906814575
+time taken for parsing and building menu is of 8 cities and 80 restaurants is = 699.6966199874878
+
+time taken to parse 14 cities is 236.53057646751404
+time taken from start to end for 140 restaurants is = 410.54748821258545
+time taken for parsing and building menu is of 14 cities and 140 restaurants is = 647.2171030044556
+
+time taken to parse 14 cities is 234.1963186264038
+time taken from start to end for 140 restaurants is = 144.58200120925903
+time taken for parsing and building menu is of 14 cities and 140 restaurants is = 378.8952910900116
+
+time taken to parse 20 cities is 228.45701789855957
+time taken to parse 20 cities is 215.35700058937073
+time taken to parse 20 cities is 213.30299592018127
+time taken to parse 20 cities is 211.1259937286377
+time taken from start to end for 100 restaurants is = 83.60800552368164
+time taken for parsing and building menu is of 10 cities and 100 restaurants is = 294.8600037097931
+
+time taken to parse 50 cities is 429.7066020965576
+time taken to parse 20 cities is 191.5340006351471
+Abohar , Adilabad , Adityapur , Adoni , Agartala , Ahmednagar , Aizawl , Ajmer , Akola , Alappuzha , time taken to parse 6 cities is 57.29103112220764
+Abohar , Adilabad , Adityapur , Adoni , Agartala , time taken to parse 6 cities is 58.4690318107605
+Abohar , Adilabad , Adityapur , Adoni , Agartala , 5
+time taken from start to end for 10 restaurants is = 12.205001592636108
+time taken for parsing and building menu is of 1 cities and 10 restaurants is = 70.69303321838379
+

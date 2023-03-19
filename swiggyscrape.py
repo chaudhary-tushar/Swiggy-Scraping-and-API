@@ -18,6 +18,8 @@ import time
 import multiprocessing as mp
 import requests
 from bs4 import BeautifulSoup
+import re
+from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -139,15 +141,16 @@ class Restaurant_finder:
     def rest_list(self,urq):
         '''This function takes url as an argument and outputs csv files containing: restaurant details/links/prenames'''
         url=urq
-        options = webdriver.ChromeOptions()
-        options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        driver = webdriver.Chrome(options=options)
-        driver.get(url)
+        
         hname_ind=urq.rfind('/')        #H_name is the variable used for naming 3 files
         hname=urq[hname_ind+1:]  
         hname=hname.replace("\n","")    # Pre_name (contains only name), Restaurants_link (contains links to restaurants)
         H_name=hname.capitalize()       # and restaurants name (which include all the information like promotion and address)
-        
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        driver = webdriver.Chrome(options=options)
+        driver.get(url)
+        print(f"working on {H_name}")
         wait = WebDriverWait(driver, 5)
 
         # wait for the element to be clickable 
@@ -166,81 +169,150 @@ class Restaurant_finder:
         #updated on 15 march 2023 since swiggy updated the relpath of first button on dropddown.
         results=wait.until(EC.element_to_be_clickable((By.XPATH, f"//body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]")))                                             
         results.click()
-        wait = WebDriverWait(driver, 5)
-        element = wait.until(EC.presence_of_element_located((By.XPATH,"//div[@class='BZR3j']")))
-        countres=element.text
-        
-
-        time.sleep(3)  # Allow 2 seconds for the web page to (open depends on you)
-        scroll_pause_time = 2  # You can set your own pause time. dont slow too slow that might not able to load more data
-        screen_height = driver.execute_script("return window.screen.height;")  # get the screen height of the web
-        i = 1
-
-        while True:
-            # scroll one screen height each time
-            driver.execute_script("window.scrollTo(0, {screen_height}*{i});".format(screen_height=screen_height, i=i))
-            i += 1
-            time.sleep(scroll_pause_time)
-            # update scroll height each time after scrolled, as the scroll height can change after we scrolled the page
-            scroll_height = driver.execute_script("return document.body.scrollHeight;")
-            # Break the loop when the height we need to scroll to is larger than the total scroll height
-            if (screen_height) * i > scroll_height:
-                break
-            # if i>5:
-            #     break
+        try:
+            wait = WebDriverWait(driver, 15)
+            element = wait.until(EC.presence_of_element_located((By.XPATH,"//div[@class='BZR3j']")))
+            countres=element.text
             
-        # Wait for the search results to load and get the HTML content of the page
-
-        html = driver.page_source
-        driver.quit()
-
-        # Parse the HTML content using Beautiful Soup
-        soup = BeautifulSoup(html, 'html.parser')
-
-        # Find all the restaurant names on the page and print them to the console
-        restaurant_names = soup.find_all('div', {'class': '_3XX_A'})
-        restn=[]
-        fp=Folder()
-        file_path0=fp.getdbfile("details",H_name)
-        with open(file_path0, 'w',encoding='utf-8') as file:
-            # Write a string to the file
-            for name in restaurant_names:
-                line=name.text
-                name=line
-                restn.append(name)
-                file.write(name+'\n')
-
-
-        my_div = soup.find('div', {'class': 'nDVxx'})
-
-        # Find all the links within the div
-        links = my_div.find_all('a')
-
-        # Loop through each link and print its URL
-        restl=[]
-        prename=[]
-        file_path1=fp.getdbfile("links",H_name)
+        except  TimeoutException:
+            print(f"{H_name} restaurants not listed ")
+            driver.quit()
+            return H_name
         
-        file_path2=fp.getdbfile("pre",H_name)
-        with open(file_path1, 'w',encoding='utf-16') as file1,open(file_path2,'w',encoding='utf-16') as file2:
-            # Write a string to the file
+        else:
+            time.sleep(2)  # Allow 2 seconds for the web page to (open depends on you)
+            scroll_pause_time = 2  # You can set your own pause time. dont slow too slow that might not able to load more data
+            screen_height = driver.execute_script("return window.screen.height;")  # get the screen height of the web
+            i = 1
+
+            while True:
+                # scroll one screen height each time
+                driver.execute_script("window.scrollTo(0, {screen_height}*{i});".format(screen_height=screen_height, i=i))
+                i += 1
+                time.sleep(scroll_pause_time)
+                # update scroll height each time after scrolled, as the scroll height can change after we scrolled the page
+                scroll_height = driver.execute_script("return document.body.scrollHeight;")
+                # Break the loop when the height we need to scroll to is larger than the total scroll height
+                if (screen_height) * i > scroll_height:
+                    break
+                # if i>5:
+                #     break
+                
+            # Wait for the search results to load and get the HTML content of the page
+
+            html = driver.page_source
+            driver.quit()
+            print(f"{H_name} parsed")
+            # Parse the HTML content using Beautiful Soup
+            soup = BeautifulSoup(html, 'html.parser')
+
+            # Find all the restaurant names on the page and print them to the console
+            restaurant_names = soup.find_all('div', {'class': '_3XX_A'})
+            restn=[]
+            fp=Folder()
+            file_path0=fp.getdbfile("details",H_name)
+            if os.path.isfile(file_path0):
+                with open(file_path0, 'r',encoding='utf-8') as file:
+                    # Write a string to the file
+                    for name in file:
+                        restn.append(name)
+                    file.close()
+                        
+                with open(file_path0, 'a',encoding='utf-8') as file:
+                    # Write a string to the file
+                    for name in restaurant_names:
+                        if name.text not in restn:
+                            line=name.text
+                            name=line
+                            restn.append(name)
+                            file.write(name+'\n')
+            else:            
+                with open(file_path0, 'w',encoding='utf-8') as file:
+                    # Write a string to the file
+                    for name in restaurant_names:
+                        line=name.text
+                        name=line
+                        restn.append(name)
+                        file.write(name+'\n')
+
+
+            my_div = soup.find('div', {'class': 'nDVxx'})
+
+            # Find all the links within the div
+            links = my_div.find_all('a')
+
+            # Loop through each link and print its URL
+            restl=[]
+            prename=[]
+            file_path1=fp.getdbfile("links",H_name)
             
-            for link in links:
-                if(link.get('href')!=None and link.get('href')[0:5]=="/rest"  ): 
-                    lkd="https://www.swiggy.com"+link.get('href')
-                    last_slash_index = lkd.rfind('/')
-                    nline=lkd[last_slash_index + 1:last_slash_index +20]
-                    neline=nline.replace("-","_")
-                    file2.write(neline+'\n')
-                    prename.append(neline)
-                    restl.append(lkd)
-                    file1.write(lkd+'\n')
-                    #print(lkd)
+            file_path2=fp.getdbfile("pre",H_name)
+            if os.path.isfile(file_path1) and os.path.isfile(file_path2):
+                with open(file_path1, 'r',encoding='utf-16') as file1,open(file_path2,'r',encoding='utf-16') as file2:
+                    for line in file1:
+                        restl.append(line)
+                    for line1 in file2:
+                        prename.append(line1)
+                    file1.close()
+                    file2.close()
+                with open(file_path1, 'a',encoding='utf-16') as file1,open(file_path2,'a',encoding='utf-16') as file2:
+                    for link in links:
+                        if(link.get('href')!=None and link.get('href')[0:5]=="/rest"  ): 
+                            lkd="https://www.swiggy.com"+link.get('href')
+                            last_slash_index = lkd.rfind('/')
+                            nline=lkd[last_slash_index + 1:last_slash_index +20]
+                            neline=nline.replace("-","_")
+                            file2.write(neline+'\n')
+                            prename.append(neline)
+                            restl.append(lkd)
+                            file1.write(lkd+'\n') 
+            
+            else:
+                with open(file_path1, 'w',encoding='utf-16') as file1,open(file_path2,'w',encoding='utf-16') as file2:
+                    for link in links:
+                        if(link.get('href')!=None and link.get('href')[0:5]=="/rest"  ): 
+                            lkd="https://www.swiggy.com"+link.get('href')
+                            last_slash_index = lkd.rfind('/')
+                            nline=lkd[last_slash_index + 1:last_slash_index +20]
+                            neline=nline.replace("-","_")
+                            file2.write(neline+'\n')
+                            prename.append(neline)
+                            restl.append(lkd)
+                            file1.write(lkd+'\n')
+                            #print(lkd)
+            mv=0
+            qre=re.search(r'\d+',countres)
+            countres=int(qre.group())
+            file_path3=fp.getdbfile("tot",H_name)  
+            if os.path.isfile(file_path3):  
+                with open(file_path3,'r',encoding='utf-8') as filem:
+                    for line in filem:
+                        if "listed" in line:
+                            match = re.search(r'\d+',line)
+                            matchq=int(match.group())
+                            mv=matchq       
+                    filem.close()
+                
+                if mv<countres:
+                    with open (file_path3,'w',encoding='utf-8') as fileq:
+                        fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
+                        fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
+                        fileq.close()
+                        
+                else:
+                    with open (file_path3,'a',encoding='utf-8') as fileq:
+                        fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
+                        fileq.close()
+            else:
+                with open (file_path3,'w',encoding='utf-8') as fileq:
+                        fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
+                        fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
+                        fileq.close()
+          
+            
+            
         
-        file_path3=fp.getdbfile("tot",H_name)    
-        with open(file_path3,'w',encoding='utf-8') as file3:
-                  file3.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
-                  file3.write(f"Total restaurants listed in {H_name} = {countres}")
+                  
                   
                   
 class Multi_res_links:
@@ -327,4 +399,13 @@ class MenuBuilder:
                 executor.shutdown(wait=True)
 
     
-    
+class Managelists:
+    '''This class is to remove cities from the url and names list to not make menus of those restaurants'''
+    def remcity(self,namelist,urllist,name):
+        '''This function takes city names,url names and cities to remove'''
+        name=name.capitalize()
+        index=namelist.index(name)
+        namelist.pop(index)
+        urllist.pop(index)
+        return namelist,urllist
+        
