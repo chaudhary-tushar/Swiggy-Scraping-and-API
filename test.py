@@ -6,7 +6,7 @@ import restaurant_finder as rf
 import time
 
 if __name__=="__main__":
-
+    TIMES=time.time()
     url="https://www.swiggy.com"
 
     city1=ss.City()
@@ -24,17 +24,15 @@ if __name__=="__main__":
     
     #########initializing rf as class for finding restaurant###########
     
-    #rf=ss.Restaurant_finder()
+    rf=ss.Restaurant_finder()
+    times=time.time()
+
+    num_processes1 = cpu_count()
+    with Pool(num_processes1) as p:
+        p.map(rf.rest_list,five)
     
-    # with ThreadPoolExecutor() as executor:
-    #     executor.map(resf.rest_list, five)
-    #     executor.shutdown(wait=True)
-    #rf.rest_list(five[0])
-    # p=mp.Pool() 
-    # p.map(rf.rest_list,five)
-    
-    # timee=time.time()
-    # print(timee-times)
+    timee=time.time()
+    print(timee-times)
     
     #######################uncomment here
     
@@ -60,4 +58,9 @@ if __name__=="__main__":
         
     timee=time.time()
     print("time taken by main function = ",timee-times,"secs")
+    TIMEE=time.time()
+    runtime=TIMEE-TIMES
+    with open('data.csv','a',encoding='utf-8')as file0:
+        file0.write(f"time taken from start to end for {len(city_res_links)*len(city_res_links[0])} restaurants is = {runtime}\n")
+        
     

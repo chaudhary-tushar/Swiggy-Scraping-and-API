@@ -24,8 +24,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-folder_path="C:/Users/tusha/Desktop/vscode/SWIGGY"
-
 
 class Folder:
     
@@ -258,7 +256,7 @@ class Multi_res_links:
             with open(file1 ,'r',encoding='utf-16') as file:
                 for line in file:
                     clinks.append(line.strip())
-            rlinks.append(clinks[:10])
+            rlinks.append(clinks[:10])          #remove the slicing in finished version
             
         return rlinks
     

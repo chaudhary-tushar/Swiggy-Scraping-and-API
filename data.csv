@@ -1,0 +1,12 @@
+time taken from start to end for 90 restaurants is = 420.5615634918213
+time taken from start to end for 90 restaurants is = 42.800058364868164
+time taken from start to end for 90 restaurants is = 1.2400012016296387
+time taken from start to end for 90 restaurants is = 1.2750041484832764
+time taken from start to end for 90 restaurants is = 1.2880003452301025
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 1.1319990158081055 secs 
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 2.554002523422241 secs  gpu
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 0.0200040340423584 secs  for loop
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 2.1379997730255127 secs   multiprocessing
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to check 50 csv files== 0.017997264862060547 secs  for loop
+
+using mayaks's system configurations and net
