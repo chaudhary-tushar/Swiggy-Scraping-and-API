@@ -147,6 +147,10 @@ class Restaurant_finder:
         hname=hname.replace("\n","")    # Pre_name (contains only name), Restaurants_link (contains links to restaurants)
         H_name=hname.capitalize()       # and restaurants name (which include all the information like promotion and address)
         options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+        options.add_argument("--blink-settings=imagesEnabled=false")
+        options.add_argument("--disable-javascript")
+        options.add_argument("--disable-animations")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         driver = webdriver.Chrome(options=options)
         driver.get(url)
@@ -328,7 +332,7 @@ class Multi_res_links:
             with open(file1 ,'r',encoding='utf-16') as file:
                 for line in file:
                     clinks.append(line.strip())
-            rlinks.append(clinks[:10])          #remove the slicing in finished version
+            rlinks.append(clinks)          #remove the slicing in finished version
             
         return rlinks
     

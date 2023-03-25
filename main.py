@@ -1,3 +1,5 @@
+'''This file exists during the development process of making a web scraper
+    Takes multiple imports from defined function file like menu_builder.py and restaurant finder.py'''
 from selenium import webdriver
 import time
 import multiprocessing as mp

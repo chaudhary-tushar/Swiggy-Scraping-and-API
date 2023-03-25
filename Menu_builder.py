@@ -1,3 +1,5 @@
+'''This file builds the menu and writes a file in the given folder 
+    Used by main.py (redundant)'''
 import requests
 import bs4
 import div_finder as sw

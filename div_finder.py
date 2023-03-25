@@ -1,3 +1,4 @@
+'''to finds all the divs like recommended / main course etc from restaurant page'''
 from selenium import webdriver
 from bs4 import  BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
@@ -6,8 +7,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 def perres(url):
     # Set up the Selenium webdriver
     options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument("--blink-settings=imagesEnabled=false")
+    options.add_argument("--disable-javascript")
+    options.add_argument("--disable-animations")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     driver = webdriver.Chrome(options=options)
+    driver.implicitly_wait(10)
     driver.get(url) 
 
     # Get the HTML source code of the page using Selenium
@@ -29,5 +35,5 @@ def perres(url):
             
 
 # Close the Selenium webdriver
-    driver.quit()
+    driver.close()
     return dids

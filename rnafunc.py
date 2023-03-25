@@ -1,3 +1,9 @@
+'''this contains 4 functions and is called by diff.py
+difflinks=returns  2-D array of restaurant links
+citynames=returns array of city names
+menu= outpust menu.csv of a restaurant link
+mpmenu= calls menu function using multiprocessing
+'''
 import os
 import time
 import swiggyscrape
@@ -8,7 +14,7 @@ from multiprocessing import Pool, cpu_count
 
 def difflinks():
     cities=[]
-    with open('city.csv','r', encoding='utf-8') as file:
+    with open('city.csv','r', encoding='utf-8') as file: 
         for line in file:
             ind=line.rfind('/')
             line=line[ind+1:]
@@ -16,17 +22,19 @@ def difflinks():
             city=city.capitalize()
             cities.append(city)
             
-    five=cities[:5]
+    five=cities[:8]
     print(five)
     rlinks=[]
     fp=swiggyscrape.Folder()
     for name in five:
         clinks=[]
         file1=fp.getdbfile("links",name)
-        with open(file1 ,'r',encoding='utf-16') as file:
-            for line in file:
-                clinks.append(line.strip())
-        rlinks.append(clinks[:10])
+        if os.path.isfile(file1):
+            with open(file1 ,'r',encoding='utf-16') as file:
+                for line in file:
+                    clinks.append(line.strip())
+        else: continue
+        rlinks.append(clinks[:20])
     return rlinks
 
 def citynames():
@@ -37,7 +45,7 @@ def citynames():
             mity=line[cty+1:-1]
             nity=mity.capitalize()
             bity.append(nity)
-    return bity[:5]
+    return bity[:8]
 
 
 
@@ -80,48 +88,45 @@ def mpmenu(crlink,city_name):
     # q.close()
     # q.join()
     times=time.time()
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor:
             executor.map(menu, crlink, [city_name]*len(crlink))
             executor.shutdown(wait=True)
             
     timee=time.time()
-    print("time taken for 10 per city restaurants when data csv exists: = ", timee-times)
     
 
 
 
 
-if __name__=="__main__":
-    resit=difflinks()
-    cityn=citynames()
-    
-    print(len(resit),len(cityn))
-    times=time.time()
-    num_processes = cpu_count()  # Get the number of CPU cores available on the system
-    print(f"Running {num_processes} processes in parallel...")
-    
-
-    with Pool(num_processes) as w:
-        #w=mp.Pool()
-        w.starmap(mpmenu,[(resit[_],cityn[_]) for _ in range(len(resit))])
-    
-    # w.close()
-    # w.join()
-    
-    timee=time.time()
-    runtime=timee-times
-    print("time taken for 50 restaurants : = ", timee-times)
-    
-    with open("data.csv",'a') as file:
-        if(runtime<50):
-            file.write(f"Pool {num_processes} and ThreadPoolExecutor(max_workers=5) time taken to check {len(resit)*len(resit[0])} csv files== {runtime} secs \n")
-        else:
-            file.write(f"Pool {num_processes} and ThreadPoolExecutor(max_workers=5) time taken to create {len(resit)*len(resit[0])} csv files== {runtime} secs \n")
+# def mainpy():
+#     resit=difflinks()
+#     cityn=citynames()
+#     tot_count=0
+#     for i in range(len(resit)):
+#         tot_count+=len(resit[i])
+#     print(tot_count)
+#     print(len(resit),len(cityn))
+#     print(cityn)
+#     times=time.time()
+#     num_processes = 4 # Get the number of CPU cores available on the system
+#     print(f"Running {num_processes} processes in parallel...")
     
 
-        
-
+#     with Pool(num_processes) as w:
+#         #w=mp.Pool()
+#         w.starmap(mpmenu,[(resit[_],cityn[_]) for _ in range(len(resit))])
     
+#     # w.close()
+#     # w.join()
     
-
+#     timee=time.time()
+#     runtime=timee-times
+#     print("time taken for 50 restaurants : = ", timee-times)
+    
+#     with open("processing_data.csv",'a') as file:
+#         if(runtime<50):
+#             file.write(f"\n\nPool {num_processes} and ThreadPoolExecutor(max_workers=5) time taken to check {tot_count} csv files== {runtime} secs \n")
+#         else:
+#             file.write(f"Pool {num_processes} and ThreadPoolExecutor(max_workers=10) time taken to create {tot_count} csv files== {runtime} secs \n")
+#         file.close()
 

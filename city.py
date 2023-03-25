@@ -1,3 +1,4 @@
+'''to get the links of different cities in city.csv'''
 import requests
 from bs4 import BeautifulSoup
 

@@ -1,3 +1,9 @@
+'''
+this is the main function which finds all the restaurants of a city whose url is provided in main.py
+It opens a selenium-automated webpage to scroll and find all the restaurants of the city since swiggy is dynamic and-
+getting all the restaurants is impossible by using requests '''
+
+
 import requests
 import Menu_builder as sg
 import multiprocessing as mp
@@ -11,44 +17,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import div_finder as sw
 
-#this is the main function which finds all the restaurants of a city whose url is provided in main.py
-#It opens a selenium-automated webpage to scroll and find all the restaurants of the city since swiggy is dynamic and-
-# getting all the restaurants is impossible by using requests 
 
-# def menu(urq):
-#     url=urq 
-#     nameind=urq.rfind('/')
-#     name=urq[nameind+1:nameind+20]
-#     print(name)
-    
-#     #divs = sw.perres(url)[1:-1]
-    
-    
-#     folder_path='C:/Users/tusha/Desktop/vscode/SWIGGY/text_files/city_res_menus'
-    
-#     if not os.path.exists(folder_path):
-#         os.makedirs(folder_path) 
-#     file_path= folder_path +'/'+ f"restaurant_{name}.csv"
-#     #if os.path.isfile(os.path.join(folder_path, file_path)):
-#     if os.path.isfile(file_path):
-#         print(f"{file_path} File exists!")
-#         return
-#     else:
-#         print(f"{file_path} does not exists")
-#         divs = sw.perres(url)[1:-1]
-#         with open(file_path,'w',encoding='utf-8') as file1:
-#             for div in divs:
-#                 #print()
-#                 #print(div.get('id'))
-#                 file1.write('\n'+div.get('id')+'\n'+'\n')
-#                 #print()
-#                 paragraphs = div.find_all('p', {'class': 'ScreenReaderOnly_screenReaderOnly___ww-V'})
-#                 #print()
-                
-#                 # Loop through the paragraphs and print their text content
-#                 for paragraph in paragraphs:
-#                     file1.write(paragraph.text+'\n')
-#                     #print(paragraph.text)
+
+
 
 def reslist(urq):
     url=urq
@@ -148,12 +119,7 @@ def reslist(urq):
                 #print(lkd)
                 
     print(len(restn),len(restl),len(prename))  
-    
-    
-        
 
-    
-'''Here i have to add functionality to call menu builder with multiprocessing'''
     
     
 

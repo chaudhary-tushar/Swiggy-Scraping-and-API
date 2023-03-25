@@ -1,11 +1,11 @@
-#this function is trial for multiprocessing different restaurants in a city 
-#ideal number of restaurants is taken as 5 
-#this is a copy of swiggy.py w/o the function
-#this file contains 4 different types of parallel computing algorithm namely:-
-    # processes=[] , p=mp.process : time for creating 10 for each 10 = 840 secs, iterating = 400 secs
-    # pooling , pool.starmap()  : time for creating 10 for each 10 = 350 secs , iterating = 9.335 secs
-    # threading , ThreadPoolExecutor as executor : time for creating 10 for each 10 =305 secs, iterating= 0.05 secs
-    #async.io ,
+'''
+this function is trial for multiprocessing different restaurants in a city 
+ideal number of restaurants is taken as 5 
+this is a copy of swiggy.py w/o the function
+this file contains 4 different types of parallel computing algorithm namely:-
+    processes=[] , p=mp.process : time for creating 10 for each 10 = 840 secs, iterating = 400 secs
+    pooling , pool.starmap()  : time for creating 10 for each 10 = 350 secs , iterating = 9.335 secs
+    threading , ThreadPoolExecutor as executor : time for creating 10 for each 10 =305 secs, iterating= 0.05 secs'''
 
 
 import div_finder as sw
