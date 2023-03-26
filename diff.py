@@ -25,7 +25,7 @@ if __name__=="__main__":
         
         ############using threading###########
         
-        with ThreadPoolExecutor(max_workers=8) as executor:
+        with ThreadPoolExecutor() as executor:
                 executor.map(rnafunc.mpmenu, resit,cityn)
                 executor.shutdown(wait=True)
         timee=time.time()
@@ -34,7 +34,7 @@ if __name__=="__main__":
             if(runtime<50):
                 file.write(f"\n\nThreadPoolExecutor(max_workers=8) and ThreadPoolExecutor(max_workers=8) time taken to check {tot_count} csv files== {runtime} secs \n")
             else:
-                file.write(f"ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create {tot_count} csv files== {runtime} secs \n")
+                file.write(f"ThreadPoolExecutor() within ThreadPoolExecutor() time taken to create {tot_count} csv files== {runtime} secs \n")
             file.close()
         
         

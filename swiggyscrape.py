@@ -225,7 +225,8 @@ class Restaurant_finder:
                 with open(file_path0, 'a',encoding='utf-8') as file:
                     # Write a string to the file
                     for name in restaurant_names:
-                        if name.text not in restn:
+                        check=name.text+"\n"
+                        if check not in restn:
                             line=name.text
                             name=line
                             restn.append(name)
@@ -266,10 +267,14 @@ class Restaurant_finder:
                             last_slash_index = lkd.rfind('/')
                             nline=lkd[last_slash_index + 1:last_slash_index +20]
                             neline=nline.replace("-","_")
-                            file2.write(neline+'\n')
-                            prename.append(neline)
-                            restl.append(lkd)
-                            file1.write(lkd+'\n') 
+                            checkpre=neline+"\n"
+                            if checkpre not in prename:
+                                file2.write(neline+'\n')
+                                prename.append(neline)
+                            checklink=lkd+"\n"
+                            if checklink not in restl:
+                                restl.append(lkd)
+                                file1.write(lkd+'\n') 
             
             else:
                 with open(file_path1, 'w',encoding='utf-16') as file1,open(file_path2,'w',encoding='utf-16') as file2:
@@ -314,10 +319,7 @@ class Restaurant_finder:
                         fileq.close()
           
             
-            
-        
-                  
-                  
+                          
                   
 class Multi_res_links:
     '''This class is to take restaurant_links{citynames} from different folders and output them as an array'''
@@ -332,7 +334,7 @@ class Multi_res_links:
             with open(file1 ,'r',encoding='utf-16') as file:
                 for line in file:
                     clinks.append(line.strip())
-            rlinks.append(clinks)          #remove the slicing in finished version
+            rlinks.append(clinks[:100])          #remove the slicing in finished version
             
         return rlinks
     
@@ -340,8 +342,13 @@ class Multi_res_links:
 class DivFinder:
     def div_finder(self,url):
         options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+        options.add_argument("--blink-settings=imagesEnabled=false")
+        options.add_argument("--disable-javascript")
+        options.add_argument("--disable-animations")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         driver = webdriver.Chrome(options=options)
+        driver.implicitly_wait(10)
         driver.get(url) 
 
         # Get the HTML source code of the page using Selenium
@@ -360,8 +367,8 @@ class DivFinder:
             if div_id:
                 dids.append(div) 
         # Close the Selenium webdriver
-            driver.quit()
-            return dids
+        driver.close()
+        return dids
     
 class MenuBuilder:
     '''This class builds the menus of different restaurant and stores it in /txt_files/city/menus/*'''
@@ -373,10 +380,7 @@ class MenuBuilder:
         nameind=urq.rfind('/')
         name=urq[nameind+1:nameind+20]
         fp=Folder()
-        #folder_path=fp.getmenufolder(cname)
         file_path=fp.getmenudb(cname,name)
-        #file_path= folder_path +'/'+ f"restaurant_{name}.csv"
-        #if os.path.isfile(os.path.join(folder_path, file_path)):
         if os.path.isfile(file_path):
             print(f"{file_path} File exists!")
             return
@@ -398,7 +402,7 @@ class MenuBuilder:
     def mpmenu(self,crlink,city_name):
         '''This function takes argument as links array and city_name and calls menu function parallely'''
     
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        with ThreadPoolExecutor(max_workers=4) as executor:
                 executor.map(self.menu, crlink, [city_name]*len(crlink))
                 executor.shutdown(wait=True)
 

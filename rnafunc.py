@@ -34,7 +34,7 @@ def difflinks():
                 for line in file:
                     clinks.append(line.strip())
         else: continue
-        rlinks.append(clinks[:20])
+        rlinks.append(clinks[:300])
     return rlinks
 
 def citynames():
@@ -68,17 +68,15 @@ def menu(urq,cname):
         divs = sw.perres(url)[:-1]
         with open(file_path,'w',encoding='utf-8') as file1:
             for div in divs:
-                #print()
-                #print(div.get('id'))
+                
                 file1.write('\n'+div.get('id')+'\n'+'\n')
-                #print()
                 paragraphs = div.find_all('p', {'class': 'ScreenReaderOnly_screenReaderOnly___ww-V'})
-                #print()
+                
                 
                 # Loop through the paragraphs and print their text content
                 for paragraph in paragraphs:
                     file1.write(paragraph.text+'\n')
-                    #print(paragraph.text)
+                    
                     
                     
 def mpmenu(crlink,city_name):
@@ -88,7 +86,7 @@ def mpmenu(crlink,city_name):
     # q.close()
     # q.join()
     times=time.time()
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor() as executor:
             executor.map(menu, crlink, [city_name]*len(crlink))
             executor.shutdown(wait=True)
             

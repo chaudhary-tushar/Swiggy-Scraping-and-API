@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 cities=[]
 
 #below function works like city.py // basically builds the file and array containing the links of different cities swiggy page
-#there are total around 608 cities listed in swiggy servicable areas
+#there are total around 598 cities listed in swiggy servicable areas
 def makelist():
     url="https://www.swiggy.com"
     response=requests.get(url)
@@ -34,12 +34,12 @@ if __name__=="__main__":
     print("*******======*******")
     
     times=time.time()
-    five=cities[:5]
+    five=cities[:1]
     
     
     
     ##########mp using threadpool###############
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor:
         executor.map(restaurant_finder.reslist, five)
         executor.shutdown(wait=True)
     

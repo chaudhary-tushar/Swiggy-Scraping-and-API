@@ -1,4 +1,4 @@
-'''this file is for checking the total restaurants listed linked and present at 1700 hrs'''
+'''this file is for checking the total restaurants listed, linked and present at 1700 hrs'''
 import os 
 import csv
 import time

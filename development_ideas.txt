@@ -3,4 +3,12 @@ At 5:41 on 25/03
 
 fully parsed txt_files with 85000 restaurants located at vscode/assignment
 
+
+##vv.imp
 create functionality for appending instead of writing files listed inside txt_files/cityname/....
+
+max_workers=? does not produce reliable output
+
+max_workers=4 with in max_workers=8 is much reliable
+
+checking fot pooling with 8 and max_workers=4
