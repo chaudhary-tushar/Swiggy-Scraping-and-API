@@ -77,3 +77,4 @@ Average time when pooling with 4 processors anfd threading with 4 workers = 259.
  --headless
 Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 136.18286991119385 secs 
 9 , 10 , 10 , 9 , 9 , 10 , 9 , 10 , 9 , 
+Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 143.03985905647278 secs 
