@@ -1,0 +1,165 @@
+Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 424.91848635673523 secs 
+9 , 9 , 8 , 10 , 9 , 10 , 10 , 9 , 9 ,  accuracy= 92 %
+Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 476.58774518966675 secs 
+10 , 9 , 7 , 8 , 9 , 10 , 10 , 10 , 9 ,  accuracy= 91%
+Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 512.5573728084564 secs 
+7 , 7 , 8 , 9 , 9 , 10 , 10 , 10 , 1 ,  accuracy= 78%
+Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 464.4693920612335 secs 
+8 , 6 , 7 , 5 , 9 , 9 , 10 , 10 , 10 ,  accuracy= 82%
+Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 627.8926060199738 secs 
+9 , 8 , 8 , 5 , 10 , 8 , 10 , 9 , 10 ,  accuracy= 85%
+ 
+Average time when pooling with 4 processors anfd threading with 10 workers=  500 seconds and accuracy = 85.7%
+
+
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 431.19002532958984 secs 
+10 , 7 , 9 , 9 , 10 , 10 , 9 , 10 , 10 , 
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 374.76319193840027 secs 
+10 , 10 , 10 , 10 , 10 , 10 , 9 , 10 , 10 , 
+Pool 8 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 446.61262035369873 secs 
+10 , 9 , 10 , 7 , 10 , 8 , 10 , 7 , 9 , 
+
+Average time when pooling with 8 processors anfd threading with 5 workers= 417 seconds and accuracy=  93%
+
+Pool 4 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 313.76759696006775 secs 
+9 , 10 , 10 , 10 , 10 , 9 , 10 , 10 , 9 , 
+Pool 4 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 313.2228775024414 secs 
+9 , 10 , 10 , 10 , 9 , 10 , 10 , 10 , 9 , 
+Pool 4 and ThreadPoolExecutor(max_workers=5) time taken to create 90 csv files== 342.1915431022644 secs 
+9 , 10 , 10 , 10 , 9 , 9 , 10 , 10 , 9 , 
+
+Average time when pooling with 4 processors anfd threading with 5 workers=  322 seconds and accuracy= 96.3%
+
+Pool 4 and ThreadPoolExecutor(max_workers=2) time taken to create 90 csv files== 257.1684901714325 secs 
+9 , 9 , 9 , 10 , 10 , 9 , 10 , 10 , 9 , 
+Pool 4 and ThreadPoolExecutor(max_workers=2) time taken to create 90 csv files== 260.31135392189026 secs 
+9 , 9 , 10 , 10 , 10 , 9 , 9 , 10 , 10 , 
+Pool 4 and ThreadPoolExecutor(max_workers=2) time taken to create 90 csv files== 260.95486974716187 secs 
+9 , 10 , 10 , 10 , 10 , 10 , 10 , 10 , 9 , 
+
+Average time when pooling with 4 processors anfd threading with 2 workers= 259 seconds and accuracy= 96%  
+
+using for loop and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 308.5763123035431 secs 
+10 , 9 , 9 , 9 , 9 , 9 , 9 , 9 , 10 , 
+using for loop and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 295.4504954814911 secs 
+9 , 9 , 9 , 9 , 9 , 9 , 9 , 9 , 9 , 
+using for loop and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 304.47610354423523 secs 
+9 , 10 , 9 , 9 , 9 , 9 , 9 , 9 , 9 , 
+
+Average time when using for loop with threading with 8 workers = 302.3 seconds and accuracy = 91.1%
+
+using ThreadPoolExecutor(max_workers=4) with ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 246.93866443634033 secs 
+10 , 10 , 10 , 10 , 9 , 10 , 10 , 9 , 10 , 
+using ThreadPoolExecutor(max_workers=4) with ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 267.987176656723 secs 
+10 , 10 , 9 , 10 , 10 , 10 , 10 , 10 , 10 , 
+using ThreadPoolExecutor(max_workers=4) with ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 251.81673336029053 secs 
+9 , 9 , 10 , 10 , 9 , 10 , 10 , 10 , 10 , 
+
+Average time when using threading with 4 workers nested in threading with 4 workers = 254 seconds and accuracy = 97.7%
+
+using ThreadPoolExecutor(max_workers=8) with ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 363.3084919452667 secs 
+10 , 10 , 10 , 10 , 9 , 10 , 10 , 10 , 10 , 
+using ThreadPoolExecutor(max_workers=8) with ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 353.52813029289246 secs 
+10 , 10 , 10 , 10 , 9 , 9 , 9 , 10 , 9 , 
+using ThreadPoolExecutor(max_workers=8) with ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 318.8766202926636 secs 
+10 , 10 , 10 , 10 , 9 , 10 , 10 , 10 , 10 , 
+
+Average time when using threading with 4 workers nested in threading with 8 workers = 344.6 seconds and accuracy = 97.7%
+
+Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 269.0331234931946 secs 
+9 , 10 , 10 , 10 , 10 , 9 , 10 , 10 , 10 , 
+Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 263.3639039993286 secs 
+10 , 10 , 10 , 10 , 9 , 9 , 10 , 10 , 10 , 
+Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 246.509131193161 secs 
+9 , 10 , 10 , 10 , 10 , 9 , 10 , 10 , 9 , 
+
+Average time when pooling with 4 processors anfd threading with 4 workers = 259.3 seconds and accuracy = 97.4%
+ --headless
+Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 136.18286991119385 secs 
+9 , 10 , 10 , 9 , 9 , 10 , 9 , 10 , 9 , 
+Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 143.03985905647278 secs 
+9 , 10 , 10 , 10 , 9 , 10 , 10 , 9 , 9 , 
+
+Pool 8 and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 126.81831765174866 secs 
+10 , 10 , 10 , 10 , 10 , 10 , 10 , 10 , 10 , 
+
+Pool 8 and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 120.87988686561584 secs 
+10 , 10 , 10 , 10 , 10 , 10 , 10 , 10 , 10 , 
+
+
+Pool 8 and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 121.62588667869568 secs 
+9 , 9 , 9 , 7 , 9 , 9 , 9 , 10 , 10 , 
+Pool 8 and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 114.44483757019043 secs 
+10 , 10 , 9 , 9 , 9 , 9 , 10 , 10 , 9 , 
+
+ 
+Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 152.2528839111328 secs 
+9 , 10 , 10 , 10 , 10 , 9 , 10 , 10 , 9 , 
+Pool 4 and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 119.80796432495117 secs 
+9 , 9 , 10 , 10 , 10 , 10 , 10 , 10 , 9 , 
+
+
+Pool 8 and ThreadPoolExecutor(max_workers=8) time taken to create 90 csv files== 119.97169828414917 secs 
+10 , 9 , 10 , 9 , 10 , 10 , 10 , 10 , 10 , 
+Pool 8 and ThreadPoolExecutor(max_workers=8) time taken to create 160 csv files== 206.8224639892578 secs 
+20 , 20 , 20 , 20 , 20 , 19 , 20 , 20 , 
+
+
+ThreadPoolExecutor(max_workers=8)and ThreadPoolExecutor(max_workers=8) time taken to create 160 csv files== 200.3189413547516 secs 
+19 , 20 , 19 , 20 , 20 , 19 , 20 , 20 , 
+
+ThreadPoolExecutor(max_workers=4)and ThreadPoolExecutor(max_workers=4) time taken to create 160 csv files== 232.93160152435303 secs 
+20 , 19 , 19 , 20 , 19 , 19 , 20 , 19 , 
+
+best time and accuracy till now. but no idea of max_workers since left to default.
+ThreadPoolExecutor(max_workers=?)and ThreadPoolExecutor(max_workers=?) time taken to create 160 csv files== 117.86501002311707 secs 
+19 , 20 , 20 , 20 , 20 , 19 , 20 , 20 , 
+
+
+ThreadPoolExecutor(max_workers=8) within ThreadPoolExecutor(max_workers=8) time taken to create 160 csv files== 205.34581089019775 secs 
+20 , 20 , 20 , 20 , 20 , 19 , 20 , 20 , 
+ThreadPoolExecutor(max_workers=16) within ThreadPoolExecutor(max_workers=16) time taken to create 160 csv files== 206.71955943107605 secs 
+20 , 19 , 20 , 19 , 20 , 17 , 20 , 17 , 
+ThreadPoolExecutor(max_workers=8) within ThreadPoolExecutor(max_workers=4) time taken to create 160 csv files== 194.40038800239563 secs 
+20 , 20 , 19 , 20 , 19 , 19 , 20 , 20 , 
+
+
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 160 csv files== 190.51979780197144 secs 
+20 , 20 , 20 , 19 , 20 , 19 , 20 , 19 , 
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=4) time taken to create 160 csv files== 197.4086298942566 secs 
+20 , 20 , 19 , 20 , 19 , 19 , 19 , 19 , 
+
+
+
+ThreadPoolExecutor(max_workers=8) within ThreadPoolExecutor(max_workers=16) time taken to create 160 csv files== 224.57085537910461 secs 
+19 , 20 , 18 , 20 , 20 , 19 , 20 , 20 , 
+
+
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 160 csv files== 214.762136220932 secs 
+20 , 20 , 20 , 19 , 19 , 19 , 20 , 20 , 
+
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 80 csv files== 106.79639005661011 secs 
+9 , 10 , 10 , 10 , 10 , 10 , 10 , 9 , 
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 160 csv files== 189.1735622882843 secs 
+20 , 19 , 19 , 20 , 20 , 20 , 20 , 20 , 
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 240 csv files== 100.90299797058105 secs 
+30 , 30 , 30 , 30 , 30 , 30 , 30 , 30 , 
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 560 csv files== 657.4402432441711 secs 
+100 , 100 , 100 , 100 , 100 , 99 , 100 , 100 , 
+
+
+ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create 800 csv files== 902.7756052017212 secs 
+197 , 200 , 199 , 200 , 200 , 197 , 197 , 199 , 
+ThreadPoolExecutor() within ThreadPoolExecutor() time taken to create 2400 csv files== 1040.2035706043243 secs 
+294 , 298 , 292 , 290 , 297 , 291 , 292 , 299 ,
+
+392 , 393 , 389 , 390 , 384 , 388 , 392 , 399 ,  equivalent to  98 ,  95 ,  97 , 100 ,  87 ,  97 , 100 , 100 ,
+481 , 615 , 480 , 541 , 537 , 508 , 469 , 552 , 
+
+581 , 675 , 576 , 620 , 619 , 571 , 565 , 633 ,  eqivalent to 100 , 60  ,  96 ,  79 ,  82 ,  63 , 95  , 80 
+
+
+pooling works great to
+679 , 744 , 675 , 693 , 695 , 624 , 664 , 707 ,
+20 , 20 , 20 , 20 , 20 , 19 , 20 , 20 , 
+20 , 20 , 20 , 20 , 20 , 19 , 20 , 20 , 

@@ -1,6 +1,6 @@
 '''To compute runtimes of different multiprocessing algorithms and with different configuations'''
-import rnafunc
-import delmenu
+import testing.rnafunc as rnafunc
+import delmenu as delmenu
 from multiprocessing import Pool, cpu_count
 from concurrent.futures import ThreadPoolExecutor
 import time

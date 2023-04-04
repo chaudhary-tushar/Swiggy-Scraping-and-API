@@ -1,14 +1,7 @@
-At 5:41 on 25/03
-903.9356553554535
+make csv of links and details in same lines and remove pre_name files
+design a functionality to move menu files from txt_fils outside vscode into swiigy/txtfiles folder.
+pooling with 4 threads with in the way
+sql db created with two tables right now 
+design a more industrialized folder structure and document everything.
 
-fully parsed txt_files with 85000 restaurants located at vscode/assignment
-
-
-##vv.imp
-create functionality for appending instead of writing files listed inside txt_files/cityname/....
-
-max_workers=? does not produce reliable output
-
-max_workers=4 with in max_workers=8 is much reliable
-
-checking fot pooling with 8 and max_workers=4
+write database automation such that unique value are inserted everytime.

@@ -67,7 +67,7 @@ if __name__=="__main__":
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
     cit=getlinks()
-    citi=cit[:5]
+    citi=cit
     num_processes=cpu_count()
     print(citi)
     print(f"Running {num_processes} processes in parallel...")

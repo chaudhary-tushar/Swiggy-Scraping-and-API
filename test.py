@@ -3,7 +3,6 @@ import swiggyscrape as ss
 from concurrent.futures import ThreadPoolExecutor
 import multiprocessing as mp
 from multiprocessing import Pool, cpu_count
-import restaurant_finder as rf
 import time
 from datetime import datetime
 
@@ -17,10 +16,10 @@ if __name__=="__main__":
     city=city1.city(url)
     city_url_list=city[0]  ###array of url links
     city_name_list=city[1] ###array of city names
-    city_names=city_name_list[:8]  
+    city_names=city_name_list
     print("appending total cities = ",len(city_names))
 
-    five=city_url_list[:8]  
+    five=city_url_list
     print(city_names)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -47,7 +46,6 @@ if __name__=="__main__":
         fileq.write(str(len(redcity))+"\n")
         fileq.close()
     
-    
     print(redcity)
     
     if(len(redcity)!=0):
@@ -73,10 +71,10 @@ if __name__=="__main__":
     menu=ss.MenuBuilder()
     ################# POOLING##############
     
-    num_processes = cpu_count()    
-    with Pool(num_processes) as w:
-        #w=mp.Pool()
-        w.starmap(menu.mpmenu,[(city_res_links[_],city_names[_]) for _ in range(len(city_res_links))])
+    # num_processes = cpu_count()    
+    # with Pool(num_processes) as w:
+    #     #w=mp.Pool()
+    #     w.starmap(menu.mpmenu,[(city_res_links[_],city_names[_]) for _ in range(len(city_res_links))])
     
     ###########THREADING###########
     

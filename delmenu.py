@@ -29,6 +29,7 @@ def countcsv(nity):
             file.write(f"{num_files[i]} , ")
         file.write("\n")
         file.close()
+    print(sum(num_files))
     print("Check processing_data.csv")
     
 #    checks if a menu file is empty 
@@ -92,8 +93,7 @@ def delfunc(x):
             nity=mity.capitalize()
             bity.append(nity) 
 
-    print(bity[:9])
-    nity=bity[:8]
+    nity=bity
     if x==1:
         countcsv(nity)
     elif x==2:
@@ -116,5 +116,5 @@ def delfunc(x):
 #input 4 = Checks if there are duplicates links in restaurant_links_{city_name}.csv
 #input 5 = checks if a menu file is empty or has size == 0 bytes and deletes it
 
-delfunc(3)
+delfunc(1)
 

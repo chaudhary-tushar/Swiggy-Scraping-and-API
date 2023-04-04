@@ -76,7 +76,7 @@ class Folder:
         
     def getmenudb(self,Cname,resname):
         fold_path=self.getmenufolder(Cname)
-        target_path=f'/restaurant_{resname}.csv'
+        target_path=f'/{resname}.csv'
         fpath=fold_path+target_path
         return fpath
     
@@ -84,7 +84,6 @@ class Folder:
     
         
         
-    
 class City:
     def __init__(self):
         pass
@@ -93,8 +92,7 @@ class City:
         fp=Folder()
         folder_path=fp.get_folder()
         file_name="city.csv"
-        file_path = os.path.join(folder_path, file_name)
-        
+        file_path = f"{folder_path}/{file_name}"      
         city_links=[]
         city_names=[]
 
@@ -169,8 +167,6 @@ class Restaurant_finder:
         search_box.send_keys(H_name)
         
         wait = WebDriverWait(driver, 5)
-        #print(f"//div[@class='sc-dmyDGi iDBMVs'][normalize-space()='{H_name}']")
-        #updated on 15 march 2023 since swiggy updated the relpath of first button on dropddown.
         results=wait.until(EC.element_to_be_clickable((By.XPATH, f"//body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]")))                                             
         results.click()
         try:
@@ -184,8 +180,7 @@ class Restaurant_finder:
             return H_name
         
         else:
-            time.sleep(2)  # Allow 2 seconds for the web page to (open depends on you)
-            scroll_pause_time = 2  # You can set your own pause time. dont slow too slow that might not able to load more data
+            scroll_pause_time = 1  # You can set your own pause time. dont slow too slow that might not able to load more data
             screen_height = driver.execute_script("return window.screen.height;")  # get the screen height of the web
             i = 1
 
@@ -228,7 +223,7 @@ class Restaurant_finder:
                         check=name.text+"\n"
                         if check not in restn:
                             line=name.text
-                            name=line
+                            name=line.replace("Promoted","")
                             restn.append(name)
                             file.write(name+'\n')
             else:            
@@ -236,7 +231,7 @@ class Restaurant_finder:
                     # Write a string to the file
                     for name in restaurant_names:
                         line=name.text
-                        name=line
+                        name=line.replace("Promoted","")
                         restn.append(name)
                         file.write(name+'\n')
 
@@ -334,7 +329,7 @@ class Multi_res_links:
             with open(file1 ,'r',encoding='utf-16') as file:
                 for line in file:
                     clinks.append(line.strip())
-            rlinks.append(clinks[:100])          #remove the slicing in finished version
+            rlinks.append(clinks[:20])          #remove the slicing in finished version
             
         return rlinks
     

@@ -22,7 +22,11 @@ def gettotal(urq):
         with open(fp,'r',encoding='utf-8') as file1:
             listed=0
             linked=0
-            for line in file1:
+            lislin=[]
+            liness=file1.readlines()
+            lislin.append(liness[0])
+            lislin.append(liness[-1])
+            for line in lislin:
                 
                 if "listed" in line:
                     listed=int(re.search(r'\d+', line).group())
@@ -39,7 +43,7 @@ def gettotal(urq):
                     
 tup4=[]
 def fivepmlist():
-    with open('aa.csv','r')as fileq:
+    with open('5pm.csv','r')as fileq:
         for line in fileq:
             listed=int(re.search(r'\d+', line).group())
             if(listed!=0):
@@ -64,10 +68,11 @@ if __name__=='__main__':
     print(f"Average listed restaurants at 5PM = {sum(tup4)/len(tup4)}")
     timee=time.time()
     print(timee-times)
+    print(len(tup),len(tup1),len(tup2),len(tup3),len(tup4))
     with open('aaa.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['LISTED RESTAURANTS', 'LINKS RESTAURANTS','DIFFERENCE','5PM FILES'])
-        for i in range(len(tup)):
+        for i in range(579):
             writer.writerow([tup[i], tup1[i],tup2[i],tup4[i]])
 
 
