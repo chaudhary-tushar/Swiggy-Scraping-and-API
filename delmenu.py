@@ -51,7 +51,7 @@ def emptymenu():
                 file_path=f"{menufolder}/{resname}"
                 if os.path.isfile(file_path):
                     file_size = os.stat(file_path).st_size
-                    if file_size==0:
+                    if file_size<100:
                         print(f"{file_path} is empty")
                         emp_path.append(file_path)
                         count+=1
@@ -59,7 +59,7 @@ def emptymenu():
     return emp_path
     
 #checks duplicate links in restaurant links for cities in list
-def checkdups(name):
+#def checkdups(name):
     file_path=f"C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files/{name}/restaurant_links_{name}.csv"
     count=0
     links=[]
@@ -116,5 +116,5 @@ def delfunc(x):
 #input 4 = Checks if there are duplicates links in restaurant_links_{city_name}.csv
 #input 5 = checks if a menu file is empty or has size == 0 bytes and deletes it
 
-delfunc(1)
+#delfunc(1)
 

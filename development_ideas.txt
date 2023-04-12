@@ -1,7 +1,8 @@
 make csv of links and details in same lines and remove pre_name files
-design a functionality to move menu files from txt_fils outside vscode into swiigy/txtfiles folder.
 pooling with 4 threads with in the way
 sql db created with two tables right now 
 design a more industrialized folder structure and document everything.
 
 write database automation such that unique value are inserted everytime.
+
+stop scraping when swiggy glitches or stops maximum requests reached.
