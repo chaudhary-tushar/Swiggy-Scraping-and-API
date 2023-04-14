@@ -21,7 +21,6 @@ def sw(url):
     options.add_argument("--enable-gpu-rasterization")
     options.add_argument("--enable-zero-copy")
     options.add_argument("--disable-software-rasterizer")
-    options.add_argument("--disable-gpu")
     options.add_argument('--headless')
     options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--disable-javascript")
@@ -73,9 +72,9 @@ def difflinks():
                     clinks.append(line.strip())
                 file.close()
             if len(clinks)<20:
-                rlinks.append(clinks[-3:])
+                rlinks.append(clinks[:-1])
             else:
-                rlinks.append(clinks[-20:-19])
+                rlinks.append(clinks[:10])
         else: continue
     return rlinks
 
