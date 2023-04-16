@@ -85,8 +85,6 @@ class Folder:
         
         
 class City:
-    def __init__(self):
-        pass
     
     def city(self,url):
         fp=Folder()
@@ -107,9 +105,7 @@ class City:
                         city=city.capitalize()
                         city_names.append(city)
             print("File exists in the folder.")
-            
-            
-            
+
         else:
             response=requests.get(url)
             soup=BeautifulSoup(response.content,'html.parser')

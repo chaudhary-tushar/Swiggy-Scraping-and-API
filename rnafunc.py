@@ -72,20 +72,15 @@ def difflinks():
                     clinks.append(line.strip())
                 file.close()
             if len(clinks)<20:
-                rlinks.append(clinks[:-1])
+                rlinks.append(clinks[0:])
             else:
                 rlinks.append(clinks[:10])
         else: continue
     return rlinks
 
 def citynames():
-    bity=[]
-    with open('city.csv','r',encoding='utf-8') as file1:
-        for line in file1:
-            cty=line.rfind('/')
-            mity=line[cty+1:-1]
-            nity=mity.capitalize()
-            bity.append(nity)
+    path='C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files'
+    bity=os.listdir(path)
     return bity
 
 

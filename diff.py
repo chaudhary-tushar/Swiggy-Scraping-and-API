@@ -16,6 +16,9 @@ if __name__=="__main__":
             tot_count+=len(resit[i])
         print(f" total number of restaurants is : {tot_count}")
         times=time.time()
+        print(cityn)
+        print(len(cityn))
+        print(resit)
         
         ##########using pooling ############
         # num_processes = cpu_count() # Get the number of CPU cores available on the system
@@ -28,18 +31,18 @@ if __name__=="__main__":
         
         ############using threading###########
         
-        with ThreadPoolExecutor(max_workers=8) as executor:
-                executor.map(rnafunc.mpmenu, resit,cityn)
-                executor.shutdown(wait=True)
+    #     with ThreadPoolExecutor(max_workers=8) as executor:
+    #             executor.map(rnafunc.mpmenu, resit,cityn)
+    #             executor.shutdown(wait=True)
                 
-        timee=time.time()
-        runtime=timee-times   
-        with open("processing_data.csv",'a') as file:
-            if(runtime<50):
-                file.write(f"\n\nThreadPoolExecutor(max_workers=4) and ThreadPoolExecutor(max_workers=8) time taken to check {tot_count} csv files== {runtime} secs \n")
-            else:
-                file.write(f"ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create {tot_count} csv files== {runtime} secs \n")
-            file.close()
+    #     timee=time.time()
+    #     runtime=timee-times   
+    #     with open("processing_data.csv",'a') as file:
+    #         if(runtime<50):
+    #             file.write(f"\n\nThreadPoolExecutor(max_workers=4) and ThreadPoolExecutor(max_workers=8) time taken to check {tot_count} csv files== {runtime} secs \n")
+    #         else:
+    #             file.write(f"ThreadPoolExecutor(max_workers=4) within ThreadPoolExecutor(max_workers=8) time taken to create {tot_count} csv files== {runtime} secs \n")
+    #         file.close()
         
         
-    delmenu.delfunc(5)
+    # delmenu.delfunc(5)
