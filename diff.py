@@ -16,21 +16,22 @@ if __name__=="__main__":
             tot_count+=len(resit[i])
         print(f" total number of restaurants is : {tot_count}")
         times=time.time()
+        print(len(cityn))
         
         ##########using pooling ############
-        # num_processes = cpu_count() # Get the number of CPU cores available on the system
-        # print(f"Running {num_processes} processes in parallel...")
-        # with Pool(num_processes) as w:
-        #     w.starmap(rnafunc.mpmenu,[(resit[_],cityn[_]) for _ in range(len(resit))])
-        #     w.close()
-        #     w.join()
+        num_processes = cpu_count() # Get the number of CPU cores available on the system
+        print(f"Running {num_processes} processes in parallel...")
+        with Pool(num_processes) as w:
+            w.starmap(rnafunc.mpmenu,[(resit[_],cityn[_]) for _ in range(len(resit))])
+            w.close()
+            w.join()
             
         
         ############using threading###########
         
-        with ThreadPoolExecutor(max_workers=8) as executor:
-                executor.map(rnafunc.mpmenu, resit,cityn)
-                executor.shutdown(wait=True)
+    #     with ThreadPoolExecutor(max_workers=8) as executor:
+    #             executor.map(rnafunc.mpmenu, resit,cityn)
+    #             executor.shutdown(wait=True)
                 
         timee=time.time()
         runtime=timee-times   

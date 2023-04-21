@@ -5,11 +5,7 @@ menu= outpust menu.csv of a restaurant link
 mpmenu= calls menu function using multiprocessing
 '''
 import os
-import time
-import swiggyscrape
-import requests
-import multiprocessing as mp
-from concurrent.futures import ThreadPoolExecutor, as_completed, CancelledError
+from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Pool, cpu_count
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -51,41 +47,32 @@ def sw(url):
     return dids
 
 def difflinks():
-    cities=[]
-    with open('city.csv','r', encoding='utf-8') as file: 
-        for line in file:
-            ind=line.rfind('/')
-            line=line[ind+1:]
-            city=line.replace("\n","")
-            city=city.capitalize()
-            cities.append(city)
+    fpath="C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
+    cities=os.listdir(fpath)
+    
             
     five=cities
+    print(len(five))
     rlinks=[]
-    fp=swiggyscrape.Folder()
+    
     for name in five:
         clinks=[]
-        file1=fp.getdbfile("links",name)
+        file1=f"{fpath}/{name}/restaurant_links_{name}.csv"
         if os.path.isfile(file1):
             with open(file1 ,'r',encoding='utf-16') as file:
                 for line in file:
                     clinks.append(line.strip())
                 file.close()
             if len(clinks)<20:
-                rlinks.append(clinks[:-1])
+                rlinks.append(clinks[0:])
             else:
-                rlinks.append(clinks[:10])
+                rlinks.append(clinks[102:104])
         else: continue
     return rlinks
 
 def citynames():
-    bity=[]
-    with open('city.csv','r',encoding='utf-8') as file1:
-        for line in file1:
-            cty=line.rfind('/')
-            mity=line[cty+1:-1]
-            nity=mity.capitalize()
-            bity.append(nity)
+    path='C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files'
+    bity=os.listdir(path)
     return bity
 
 

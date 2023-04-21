@@ -12,3 +12,12 @@
     there are 65000 restaurant_links but only 26187 menus.
 
     rewrite checkdups library.
+
+    1807-247
+
+    working on testing mech (diff and rnafunc ) issue posting restaurant menu in different city folder
+
+
+    
+                        
+             
