@@ -16,15 +16,17 @@ from concurrent.futures import ThreadPoolExecutor
 from selenium import webdriver
 import time
 import multiprocessing as mp
-import requests
 from bs4 import BeautifulSoup
-import re
+import mysql.connector as connector
+import pymongo
+import psycopg2
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+import pandas as pd
 
 
 class Folder:
@@ -53,12 +55,9 @@ class Folder:
     
     def getdbfile(self,stng,Cname):
         fold_path=self.getdbfolder(Cname)
-        if(stng=="details"):
-            return f'{fold_path}/restaurant_details_{Cname}.csv'
-        if(stng=="links"):
-            return f'{fold_path}/restaurant_links_{Cname}.csv'
-        if(stng=="pre"):
-            return f'{fold_path}/pre_names_{Cname}.csv'
+        if(stng=="det_links"):
+            return f'{fold_path}/restaurant_det_links_{Cname}.csv'
+        
         if(stng=="tot"):
             return f'{fold_path}/total_restaurants_{Cname}.csv'
         
@@ -76,7 +75,7 @@ class Folder:
         
     def getmenudb(self,Cname,resname):
         fold_path=self.getmenufolder(Cname)
-        target_path=f'/{resname}.csv'
+        target_path=f'/restaurant_{resname}.csv'
         fpath=fold_path+target_path
         return fpath
     
@@ -202,112 +201,82 @@ class Restaurant_finder:
             soup = BeautifulSoup(html, 'html.parser')
 
             # Find all the restaurant names on the page and print them to the console
-            restaurant_names = soup.find_all('div', {'class': '_3XX_A'})
-            restn=[]
             fp=Folder()
-            file_path0=fp.getdbfile("details",H_name)
-            if os.path.isfile(file_path0):
-                with open(file_path0, 'r',encoding='utf-8') as file:
-                    # Write a string to the file
-                    for name in file:
-                        restn.append(name)
-                    file.close()
-                        
-                with open(file_path0, 'a',encoding='utf-8') as file:
-                    # Write a string to the file
-                    for name in restaurant_names:
-                        check=name.text+"\n"
-                        if check not in restn:
-                            line=name.text
-                            name=line.replace("Promoted","")
-                            restn.append(name)
-                            file.write(name+'\n')
-            else:            
-                with open(file_path0, 'w',encoding='utf-8') as file:
-                    # Write a string to the file
-                    for name in restaurant_names:
-                        line=name.text
-                        name=line.replace("Promoted","")
-                        restn.append(name)
-                        file.write(name+'\n')
+            specific_div = soup.find('div', {'id': 'all_restaurants'})
 
-
-            my_div = soup.find('div', {'class': 'nDVxx'})
-
-            # Find all the links within the div
-            links = my_div.find_all('a')
-
-            # Loop through each link and print its URL
-            restl=[]
-            prename=[]
-            file_path1=fp.getdbfile("links",H_name)
+            # find all div elements with class _3XX_A inside the specific div
+            named = specific_div.find_all('div', {'class': '_3XX_A'})
             
-            file_path2=fp.getdbfile("pre",H_name)
-            if os.path.isfile(file_path1) and os.path.isfile(file_path2):
-                with open(file_path1, 'r',encoding='utf-16') as file1,open(file_path2,'r',encoding='utf-16') as file2:
-                    for line in file1:
-                        restl.append(line)
-                    for line1 in file2:
-                        prename.append(line1)
-                    file1.close()
-                    file2.close()
-                with open(file_path1, 'a',encoding='utf-16') as file1,open(file_path2,'a',encoding='utf-16') as file2:
-                    for link in links:
-                        if(link.get('href')!=None and link.get('href')[0:5]=="/rest"  ): 
-                            lkd="https://www.swiggy.com"+link.get('href')
-                            last_slash_index = lkd.rfind('/')
-                            nline=lkd[last_slash_index + 1:last_slash_index +20]
-                            neline=nline.replace("-","_")
-                            checkpre=neline+"\n"
-                            if checkpre not in prename:
-                                file2.write(neline+'\n')
-                                prename.append(neline)
-                            checklink=lkd+"\n"
-                            if checklink not in restl:
-                                restl.append(lkd)
-                                file1.write(lkd+'\n') 
-            
-            else:
-                with open(file_path1, 'w',encoding='utf-16') as file1,open(file_path2,'w',encoding='utf-16') as file2:
-                    for link in links:
-                        if(link.get('href')!=None and link.get('href')[0:5]=="/rest"  ): 
-                            lkd="https://www.swiggy.com"+link.get('href')
-                            last_slash_index = lkd.rfind('/')
-                            nline=lkd[last_slash_index + 1:last_slash_index +20]
-                            neline=nline.replace("-","_")
-                            file2.write(neline+'\n')
-                            prename.append(neline)
-                            restl.append(lkd)
-                            file1.write(lkd+'\n')
-                            #print(lkd)
-            mv=0
-            qre=re.search(r'\d+',countres)
-            countres=int(qre.group())
-            file_path3=fp.getdbfile("tot",H_name)  
-            if os.path.isfile(file_path3):  
-                with open(file_path3,'r',encoding='utf-8') as filem:
-                    for line in filem:
-                        if "listed" in line:
-                            match = re.search(r'\d+',line)
-                            matchq=int(match.group())
-                            mv=matchq       
-                    filem.close()
+            # named = soup.find_all('div', {'class': '_3XX_A'})
+            clean_name = lambda name: name.text.replace("Promoted", "")
+            names=[clean_name(name) for name in named]
+            print(names,len(names))
+            my_div = soup.find('div', {'id': 'all_restaurants'})
+            linkd = my_div.find_all('a')
+            check_link = lambda link: "https://www.swiggy.com" + link.get("href") if link.get("href") is not None and link.get("href").startswith("/rest") else None
+            links=[check_link(link) for link in linkd ]
+            links=[link for link in links if link is not None]
+            print(links,len(links))
+            file_path1=fp.getdbfile("det_links",H_name)
+            data_dict = {"Details": names, "Links":links }
+
+            # Create a pandas DataFrame from the dictionary
+            df = pd.DataFrame(data_dict)
+
+            # Check if the CSV file already exists
+            try:
+                existing_df = pd.read_csv(file_path1)
+            except FileNotFoundError:
+                existing_df = pd.DataFrame()
+
+            # Check for duplicate values based on the "name" and "link" columns
+            existing_names = set(existing_df["Details"]) if not existing_df.empty else set()
+            existing_links = set(existing_df["Links"]) if not existing_df.empty else set()
+            new_names = set(df["Details"])
+            new_links = set(df["Links"])
+            new_names_and_links = new_names.union(new_links)
+            duplicate_names = new_names_and_links.intersection(existing_names)
+            duplicate_links = new_names_and_links.intersection(existing_links)
+
+            # If there are duplicate values, remove them from the new DataFrame
+            if len(duplicate_names) > 0 or len(duplicate_links) > 0:
+                df = df[~df["Details"].isin(duplicate_names)]
+                df = df[~df["Links"].isin(duplicate_links)]
+
+            # Append the new DataFrame to the existing one and write to a CSV file
+            print(H_name,existing_df.empty)
+            df.to_csv(file_path1, mode="a", index=False, header=existing_df.empty)
+                            
+                            
+            # total restaurant listed part no work to be done below as it is to be checked at 1100 hrs and 1700 hrs
+            # mv=0
+            # qre=re.search(r'\d+',countres)
+            # countres=int(qre.group())
+            # file_path3=fp.getdbfile("tot",H_name)  
+            # if os.path.isfile(file_path3):  
+            #     with open(file_path3,'r',encoding='utf-8') as filem:
+            #         for line in filem:
+            #             if "listed" in line:
+            #                 match = re.search(r'\d+',line)
+            #                 matchq=int(match.group())
+            #                 mv=matchq       
+            #         filem.close()
                 
-                if mv<countres:
-                    with open (file_path3,'w',encoding='utf-8') as fileq:
-                        fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
-                        fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
-                        fileq.close()
+            #     if mv<countres:
+            #         with open (file_path3,'w',encoding='utf-8') as fileq:
+            #             fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
+            #             fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
+            #             fileq.close()
                         
-                else:
-                    with open (file_path3,'a',encoding='utf-8') as fileq:
-                        fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
-                        fileq.close()
-            else:
-                with open (file_path3,'w',encoding='utf-8') as fileq:
-                        fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
-                        fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
-                        fileq.close()
+            #     else:
+            #         with open (file_path3,'a',encoding='utf-8') as fileq:
+            #             fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
+            #             fileq.close()
+            # else:
+            #     with open (file_path3,'w',encoding='utf-8') as fileq:
+            #             fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
+            #             fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
+            #             fileq.close()
           
             
                           
@@ -321,10 +290,14 @@ class Multi_res_links:
         fp=Folder()
         for name in flist:
             clinks=[]
-            file1=fp.getdbfile("links",name)
-            with open(file1 ,'r',encoding='utf-16') as file:
-                for line in file:
-                    clinks.append(line.strip())
+            file1=fp.getdbfile("det_links",name)
+            with open(file1 ,'r',encoding='utf-8') as file:
+                lines=file.readlines()[1:]
+                
+                for line in lines:
+                    lind=line.rfind(',')
+                    link=line[lind+1:]
+                    clinks.append(link.strip())
             rlinks.append(clinks[:20])          #remove the slicing in finished version
             
         return rlinks
@@ -407,4 +380,189 @@ class Managelists:
         namelist.pop(index)
         urllist.pop(index)
         return namelist,urllist
+
+
+
+class restArr:
+    '''This class makes the 2-D array of different restaurants to be filled in dbs.
+    every array in the 2-d array has structure [city,restaurant_name,restaurant_url,cuisine,ratings,cost_for_two,discount,coupon]
+    '''
+    def __init__(self):
+        self.foldpath="C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
+        
+    def rest_makear(self):
+        cit=os.listdir(self.foldpath)
+        kamaalarr=[]
+        
+        for city in cit:
+            detpath=f"{self.foldpath}/{city}/restaurant_det_links_{city}.csv"
+            if (os.path.isfile(detpath)):
+                menpath=f"{self.foldpath}/{city}/menus"
+                df=pd.read_csv(detpath)
+                details=df["Details"]
+                links=df["Links"]
+                x=len(links)
+                for i in range(x):
+                    pres=[]
+                    pres.append(city)
+                    rind=links[i].rfind('/')
+                        
+                    if ("%" in details[i]):
+                        discountind=details[i].rfind('%')
+                        discount=details[i][discountind-2:discountind]
+                        couponind=details[i].rfind("Use")
+                        couponlind=details[i].rfind("Quick")
+                        coupon=details[i][couponind+4:couponlind]
+                    restaurantname=links[i][rind+1:rind+20]
+                    menu=f"{menpath}/restaurant_{restaurantname}.csv"
+                    if os.path.isfile(menu):
+                        with open(menu,'r',encoding='utf-8') as fileq:
+                            lines3=fileq.readlines()
+                            impdat=lines3[3:8]
+                            
+                            namind=impdat[0].rfind(':')
+                            namelind=impdat[0].find(',',namind)
+                            name=impdat[0][namind+2:namelind]
+                            pres.append(name.replace("'",""))
+                            
+                            pres.append(links[i].replace('\n',''))
+                                
+                            cusind=impdat[1].rfind(':')
+                            cuslind=impdat[1].rfind(',')
+                            cuisine=impdat[1][cusind+2:cuslind]
+                            if len(cuisine)>=10:
+                                cuisine=cuisine.replace(","," &")
+                            pres.append(cuisine)
+                                
+                            ratind=impdat[2].rfind(':')
+                            ratlind=impdat[2].rfind(',')
+                            rating=impdat[2][ratind+2:ratlind]
+                            if len(rating)<4:
+                                pres.append(rating)
+                            else:
+                                pres.append("3.8")
+                                
+                            costind=impdat[4].rfind(':')
+                            costlind=impdat[4].rfind(',')
+                            costfortwo=impdat[4][costind+2:costlind]
+                            pres.append(costfortwo)
+                            fileq.close()
+                    else:
+                        pass
+                    pres.append(discount)
+                    if len(coupon)<=10:   
+                        pres.append(coupon)
+                    else:
+                        pres.append(None)
+                    while(len(pres)<8):
+                        pres.append(None)
+                    kamaalarr.append(pres)
+        with open("insertingdb.csv",'w',encoding='utf- 16')as fil:
+            for i in range(len(kamaalarr)):
+                fil.write(f'{kamaalarr[i]}\n')
+        return kamaalarr  
+    def city_makearr(self):
+        '''Makes 2-D array of citynames and citylinks'''
+        ctar=[]
+        with open('city.csv','r') as file:
+            i=1
+            for line in file:
+                perc=[]
+                lnk=line.rstrip('\n')
+                nind=lnk.rfind('/')
+                nme=lnk[nind+1:]
+                name=nme.capitalize()
+                perc.append(i)
+                perc.append(name)
+                perc.append(lnk)
+                i+=1
+                ctar.append(perc)
+        return ctar
+    
+class MSQL:
+    def __init__(self):
+        self.con=connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = 'root',
+            database = 'swiggdb')
+        query='CREATE TABLE if not exists citydat(cityId int PRIMARY KEY AUTO_INCREMENT, CityName varchar(50), CityUrl varchar(200))'
+        cur=self.con.cursor()
+        cur.execute(query)
+        print("table created")
+        
+        query="CREATE TABLE if not exists restaurant_dat(rest_Id int PRIMARY KEY AUTO_INCREMENT,city_name varchar(50) NULL, rest_Name varchar(50) NULL, rest_Url varchar(200) NULL,cuisine varchar(100) NULL,ratings varchar(5) NULL,cost_for_two varchar(50) NULL , discount int NULL , coupon varchar(20) NULL)"
+        cur=self.con.cursor()
+        cur.execute(query)
+        print("restaurant table created")  
+    def city_insert(self,ctname,cturl):
+        '''inserts cityname , cityurl into citydat'''
+        query=f"insert into citydat(CityName,CityUrl) values ('{ctname}','{cturl}')"
+        cur=self.con.cursor()
+        cur.execute(query)
+        self.con.commit()
+    
+    def res_insert(self,list):
+        '''inserts [city name ,restaurant name , rest url ,cuisine,ratings ,cost for two, discount ,coupon] into restaurant dat'''
+        query=f"insert into restaurant_dat(city_name,rest_name,rest_url,cuisine,ratings,cost_for_two,discount,coupon) values ('{list[0]}','{list[1]}','{list[2]}','{list[3]}','{list[4]}','{list[5]}','{list[6]}','{list[7]}')"
+        cur=self.con.cursor()
+        try:
+            cur.execute(query)
+            print("inserted i")
+        except:
+            pass
+        self.con.commit()
+    
+
+class MNGDB:
+    '''To insert data into Mongodb'''
+    def __init__(self):
+        self.client = pymongo.MongoClient('mongodb://localhost:27017/')
+        self.db = self.client['swiggdb'] 
+    
+    def city_insert(self,name,url):
+        '''To insert cityname and cityurl into cities'''
+        db=self.db
+        citydata=[{'CityName':f'{name}','CityUrl':f'{url}'}]
+        db.Cities.insert_many(citydata)
+    def rest_insert(self,list):
+        '''input the restArr list '''
+        db=self.db
+        Restaurant_details=[{'City': f'{list[0]}','RestaurantName': f'{list[1]}','Rest_Url': f'{list[2]}','Cuisine': f'{list[3]}','Ratings': f'{list[4]}','Cost_Two': f'{list[5]}','Discount': f'{list[6]}','Coupon': f'{list[7]}'}]
+        db.Restaurants.insert_many(Restaurant_details)
+        
+class PGSQL:
+    '''To insert data into Postgresql'''
+    def __init__(self):
+        self.con = psycopg2.connect(
+            host="localhost",
+            database="swiggdb",
+            user="postgres",
+            password="root"
+        )
+        query = 'CREATE TABLE IF NOT EXISTS citydat(cityId SERIAL PRIMARY KEY, CityName VARCHAR(50), CityUrl VARCHAR(200))'
+        cur = self.con.cursor()
+        cur.execute(query)
+        print("table created")
+        query = "CREATE TABLE IF NOT EXISTS restaurant_dat(rest_Id SERIAL PRIMARY KEY, city_name VARCHAR(50), rest_Name VARCHAR(50), rest_Url VARCHAR(200), cuisine VARCHAR(100), ratings VARCHAR(5), cost_for_two VARCHAR(50), discount INTEGER, coupon VARCHAR(20))"
+        cur = self.con.cursor()
+        cur.execute(query)
+        print("restaurant table created")
+        
+    def city_insert(self, ctname, cturl):
+        query = f"INSERT INTO citydat(CityName, CityUrl) VALUES ('{ctname}', '{cturl}')"
+        cur = self.con.cursor()
+        cur.execute(query)
+        self.con.commit()
+        
+    def rest_insert(self, lst):
+        '''[city name, restaurant name, rest url, cuisine, ratings, cost for two, discount, coupon]'''
+        query = f"INSERT INTO restaurant_dat(city_name, rest_name, rest_url, cuisine, ratings, cost_for_two, discount, coupon) VALUES ('{lst[0]}', '{lst[1]}', '{lst[2]}', '{lst[3]}', '{lst[4]}', '{lst[5]}', '{lst[6]}', '{lst[7]}')"
+        cur = self.con.cursor()
+        try:
+            cur.execute(query)
+            print("inserted i")
+        except:
+            pass
+        self.con.commit()
         
