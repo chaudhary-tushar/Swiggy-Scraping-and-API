@@ -210,13 +210,11 @@ class Restaurant_finder:
             # named = soup.find_all('div', {'class': '_3XX_A'})
             clean_name = lambda name: name.text.replace("Promoted", "")
             names=[clean_name(name) for name in named]
-            print(names,len(names))
             my_div = soup.find('div', {'id': 'all_restaurants'})
             linkd = my_div.find_all('a')
             check_link = lambda link: "https://www.swiggy.com" + link.get("href") if link.get("href") is not None and link.get("href").startswith("/rest") else None
             links=[check_link(link) for link in linkd ]
             links=[link for link in links if link is not None]
-            print(links,len(links))
             file_path1=fp.getdbfile("det_links",H_name)
             data_dict = {"Details": names, "Links":links }
 
@@ -229,7 +227,7 @@ class Restaurant_finder:
             except FileNotFoundError:
                 existing_df = pd.DataFrame()
 
-            # Check for duplicate values based on the "name" and "link" columns
+            # Check for duplicate values based on the "Details" and "Links" columns
             existing_names = set(existing_df["Details"]) if not existing_df.empty else set()
             existing_links = set(existing_df["Links"]) if not existing_df.empty else set()
             new_names = set(df["Details"])
@@ -244,43 +242,9 @@ class Restaurant_finder:
                 df = df[~df["Links"].isin(duplicate_links)]
 
             # Append the new DataFrame to the existing one and write to a CSV file
-            print(H_name,existing_df.empty)
             df.to_csv(file_path1, mode="a", index=False, header=existing_df.empty)
-                            
-                            
-            # total restaurant listed part no work to be done below as it is to be checked at 1100 hrs and 1700 hrs
-            # mv=0
-            # qre=re.search(r'\d+',countres)
-            # countres=int(qre.group())
-            # file_path3=fp.getdbfile("tot",H_name)  
-            # if os.path.isfile(file_path3):  
-            #     with open(file_path3,'r',encoding='utf-8') as filem:
-            #         for line in filem:
-            #             if "listed" in line:
-            #                 match = re.search(r'\d+',line)
-            #                 matchq=int(match.group())
-            #                 mv=matchq       
-            #         filem.close()
-                
-            #     if mv<countres:
-            #         with open (file_path3,'w',encoding='utf-8') as fileq:
-            #             fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
-            #             fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
-            #             fileq.close()
-                        
-            #     else:
-            #         with open (file_path3,'a',encoding='utf-8') as fileq:
-            #             fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
-            #             fileq.close()
-            # else:
-            #     with open (file_path3,'w',encoding='utf-8') as fileq:
-            #             fileq.write(f"Total restaurants listed in {H_name} = {countres}\n")
-            #             fileq.write(f"Total restaurant links in {H_name}= {len(restl)}\n")
-            #             fileq.close()
-          
             
-                          
-                  
+                   
 class Multi_res_links:
     '''This class is to take restaurant_links{citynames} from different folders and output them as an array'''
     

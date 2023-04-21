@@ -16,10 +16,10 @@ if __name__=="__main__":
     city=city1.city(url)
     city_url_list=city[0]  ###array of url links
     city_name_list=city[1] ###array of city names
-    city_names=city_name_list[:2]
+    city_names=city_name_list
     print("appending total cities = ",len(city_names))
 
-    five=city_url_list[:2]
+    five=city_url_list
     print(city_names)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -71,16 +71,16 @@ if __name__=="__main__":
     menu=ss.MenuBuilder()
     ################# POOLING##############
     
-    num_processes = cpu_count()    
-    with Pool(num_processes) as w:
-        w=mp.Pool()
-        w.starmap(menu.mpmenu,[(city_res_links[_],city_names[_]) for _ in range(len(city_res_links))])
+    # num_processes = cpu_count()    
+    # with Pool(num_processes) as w:
+    #     w=mp.Pool()
+    #     w.starmap(menu.mpmenu,[(city_res_links[_],city_names[_]) for _ in range(len(city_res_links))])
     
     ###########THREADING###########
     
-    # with ThreadPoolExecutor(max_workers=8) as executor:
-    #             executor.map(menu.mpmenu, city_res_links,city_names)
-    #             executor.shutdown(wait=True)
+    with ThreadPoolExecutor(max_workers=8) as executor:
+                executor.map(menu.mpmenu, city_res_links,city_names)
+                executor.shutdown(wait=True)
     
     Arrays=ss.restArr()
     carr=Arrays.city_makearr()
