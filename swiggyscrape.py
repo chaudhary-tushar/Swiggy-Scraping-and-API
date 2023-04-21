@@ -463,19 +463,35 @@ class MSQL:
         '''inserts cityname , cityurl into citydat'''
         query=f"insert into citydat(CityName,CityUrl) values ('{ctname}','{cturl}')"
         cur=self.con.cursor()
-        cur.execute(query)
+        try:
+            cur.execute(query)
+        except:
+            pass
         self.con.commit()
+        
     
-    def res_insert(self,list):
+    def rest_insert(self,list):
         '''inserts [city name ,restaurant name , rest url ,cuisine,ratings ,cost for two, discount ,coupon] into restaurant dat'''
         query=f"insert into restaurant_dat(city_name,rest_name,rest_url,cuisine,ratings,cost_for_two,discount,coupon) values ('{list[0]}','{list[1]}','{list[2]}','{list[3]}','{list[4]}','{list[5]}','{list[6]}','{list[7]}')"
         cur=self.con.cursor()
         try:
             cur.execute(query)
-            print("inserted i")
         except:
             pass
         self.con.commit()
+    
+    def data(self):
+        cur=self.con.cursor()
+        print("data in Mysql")
+        print("restaurants")
+        cur.execute('SELECT COUNT(*) FROM restaurant_dat')
+        count=cur.fetchone()[0]
+        print(count)
+        print("cities")
+        cur.execute('SELECT COUNT(*) FROM citydat')
+        count=cur.fetchone()[0]
+        print(count)
+        
     
 
 class MNGDB:
@@ -488,12 +504,28 @@ class MNGDB:
         '''To insert cityname and cityurl into cities'''
         db=self.db
         citydata=[{'CityName':f'{name}','CityUrl':f'{url}'}]
-        db.Cities.insert_many(citydata)
+        try:
+            db.Cities.insert_many(citydata)
+        except:
+            pass
+        
+        
     def rest_insert(self,list):
         '''input the restArr list '''
         db=self.db
         Restaurant_details=[{'City': f'{list[0]}','RestaurantName': f'{list[1]}','Rest_Url': f'{list[2]}','Cuisine': f'{list[3]}','Ratings': f'{list[4]}','Cost_Two': f'{list[5]}','Discount': f'{list[6]}','Coupon': f'{list[7]}'}]
-        db.Restaurants.insert_many(Restaurant_details)
+        
+        try:
+            db.Restaurants.insert_many(Restaurant_details)
+        except:
+            pass
+    def data(self):
+        db=self.db
+        print("Documents in Mongodb")
+        print("restaurants")
+        print(db.Restaurants.count_documents({}))
+        print("cities")
+        print(db.Cities.count_documents({}))
         
 class PGSQL:
     '''To insert data into Postgresql'''
@@ -516,8 +548,12 @@ class PGSQL:
     def city_insert(self, ctname, cturl):
         query = f"INSERT INTO citydat(CityName, CityUrl) VALUES ('{ctname}', '{cturl}')"
         cur = self.con.cursor()
-        cur.execute(query)
+        try:
+            cur.execute(query)
+        except:
+            pass
         self.con.commit()
+        
         
     def rest_insert(self, lst):
         '''[city name, restaurant name, rest url, cuisine, ratings, cost for two, discount, coupon]'''
@@ -525,8 +561,21 @@ class PGSQL:
         cur = self.con.cursor()
         try:
             cur.execute(query)
-            print("inserted i")
         except:
             pass
         self.con.commit()
+        
+        
+    def data(self):
+        cur=self.con.cursor()
+        print("rows in postgresql")
+        print("restaurants")
+        cur.execute('SELECT COUNT(*) FROM restaurant_dat')
+        count=cur.fetchone()[0]
+        print(count)
+        print("cities")
+        cur.execute('SELECT COUNT(*) FROM citydat')
+        count=cur.fetchone()[0]
+        print(count)
+        
         

@@ -25,7 +25,7 @@ if __name__=="__main__":
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
     
     
-    #########initializing rf as class for finding restaurant###########
+    ########initializing rf as class for finding restaurant###########
     
     rf=ss.Restaurant_finder()
     times=time.time()
@@ -55,7 +55,7 @@ if __name__=="__main__":
             
     
     
-    #######################uncomment here############
+    # #######################uncomment here############
     
     pre=ss.Multi_res_links()
     city_res_links=pre.get_links(city_names)  ###gets the 2-D array of restaurant links
@@ -65,22 +65,22 @@ if __name__=="__main__":
         tot_count+=len(city_res_links[i])
     print(tot_count)
         
-    ########calling multiprocessing menu builder this call nested multiprocessing#########
+    # ########calling multiprocessing menu builder this call nested multiprocessing#########
     
     TIMES=time.time()
     menu=ss.MenuBuilder()
     ################# POOLING##############
     
-    # num_processes = cpu_count()    
-    # with Pool(num_processes) as w:
-    #     w=mp.Pool()
-    #     w.starmap(menu.mpmenu,[(city_res_links[_],city_names[_]) for _ in range(len(city_res_links))])
+    num_processes = cpu_count()    
+    with Pool(num_processes) as w:
+        w=mp.Pool()
+        w.starmap(menu.mpmenu,[(city_res_links[_],city_names[_]) for _ in range(len(city_res_links))])
     
     ###########THREADING###########
     
-    with ThreadPoolExecutor(max_workers=8) as executor:
-                executor.map(menu.mpmenu, city_res_links,city_names)
-                executor.shutdown(wait=True)
+    # with ThreadPoolExecutor(max_workers=8) as executor:
+    #             executor.map(menu.mpmenu, city_res_links,city_names)
+    #             executor.shutdown(wait=True)
     
     Arrays=ss.restArr()
     carr=Arrays.city_makearr()
@@ -94,6 +94,14 @@ if __name__=="__main__":
         Msql.city_insert(carr[i][1],carr[i][2])
         Mngdb.city_insert(carr[i][1],carr[i][2])
         Pgdb.city_insert(carr[i][1],carr[i][2])
+    for i in range(len(rarr)):
+        Msql.rest_insert(rarr[i])
+        Mngdb.rest_insert(rarr[i])
+        Pgdb.rest_insert(rarr[i])
+    
+    Msql.data()
+    Mngdb.data()
+    Pgdb.data()
         
     TIMEE=time.time()
     runtime=TIMEE-TIMES
