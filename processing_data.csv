@@ -1,3 +1,4 @@
 Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 424.91848635673523 secs 
 9 , 9 , 8 , 10 , 9 , 10 , 10 , 9 , 9 ,  accuracy= 92 %
 Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 476.58774518966675 secs 
+10 , 9 , 7 , 8 , 9 , 10 , 10 , 10 , 9 ,  accuracy= 91%
