@@ -1,0 +1,1 @@
+Pool 4 and ThreadPoolExecutor(max_workers=10) time taken to create 90 csv files== 424.91848635673523 secs 
