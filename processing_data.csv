@@ -67,3 +67,4 @@ using ThreadPoolExecutor(max_workers=8) with ThreadPoolExecutor(max_workers=4) t
 Average time when using threading with 4 workers nested in threading with 8 workers = 344.6 seconds and accuracy = 97.7%
 
 Pool 4 and ThreadPoolExecutor(max_workers=4) time taken to create 90 csv files== 269.0331234931946 secs 
+9 , 10 , 10 , 10 , 10 , 9 , 10 , 10 , 10 , 
