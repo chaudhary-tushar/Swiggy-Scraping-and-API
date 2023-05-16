@@ -14,10 +14,10 @@ if __name__=="__main__":
         tot_count=0
         for i in range(len(resit)):
             tot_count+=len(resit[i])
-        print(f" total number of restaurants is : {tot_count}")
+        print(f"total number of restaurants is : {tot_count}")
         times=time.time()
         print(len(cityn))
-        
+        sys.exit(0)
         ##########using pooling ############
         num_processes = cpu_count() # Get the number of CPU cores available on the system
         print(f"Running {num_processes} processes in parallel...")
