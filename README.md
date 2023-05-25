@@ -4,10 +4,12 @@
 Description:
 
  Web scraping with Selenium to extract data from Swiggy.
+- Scraping using selenium in headless mode and with concurrency.
 - Storage of scraped data in MySQL, MongoDB, and PostgreSQL databases.
-- Integration of MySQL with Django framework to create a RESTful API with the cities endpoint.
-- Integration of MongoDB with Flask framework to create a RESTful API with the restaurants endpoint.
-- Integration of PostgreSQL with FastAPI framework to create a RESTful API with the menu data endpoint.
+- Using pandas to format and process intermittent csv files data.
+- Using nested concurrency to scrape 64  restaurant menus at once.
+- Integration of MySQL with Django framework, MongoDB with Flask framework  and PostgreSQL with FastAPI framework to create a RESTful API .
+
 
 
 
@@ -51,5 +53,5 @@ Python, Selenium, Django, Flask, Fast-API, MySQL, MongoDb, PostgreSQL, Rest_fram
 
 ## Feedback
 
-If you have any feedback, please reach out to me at chaudharytushar014@.gmailcom
+If you have any feedback, please reach out to me at chaudharytushar014@gmail.com
 
