@@ -11,7 +11,7 @@ Description:
 
 
 
-## Screenshots
+## Scraping Flowchart
 
 ![App Screenshot](https://github.com/chaudhary-tushar/Swiggy-Scraping-and-API/blob/master/flowchart.jpg)
 
