@@ -1,8 +1,8 @@
-'''To compute runtimes of different multiprocessing algorithms and with different configuations'''
+'''To compute runtimes of different multiprocessing algorithms and with different configurations'''
 import rnafunc as rnafunc
 import delmenu as delmenu
 from multiprocessing import Pool, cpu_count
-from concurrent.futures import ThreadPoolExecutor, as_completed, CancelledError
+from concurrent.futures import ThreadPoolExecutor
 import time
 import sys
 import os

@@ -63,10 +63,10 @@ def difflinks():
                 for line in file:
                     clinks.append(line.strip())
                 file.close()
-            if len(clinks)<20:
+            if len(clinks)<50:
                 rlinks.append(clinks[0:])
             else:
-                rlinks.append(clinks[102:104])
+                rlinks.append(clinks[50:51])
         else: continue
     return rlinks
 

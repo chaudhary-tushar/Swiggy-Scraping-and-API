@@ -407,8 +407,8 @@ class restArr:
                                 pres.append("3.8")
                                 
                             costind=impdat[4].rfind(':')
-                            costlind=impdat[4].rfind(',')
-                            costfortwo=impdat[4][costind+2:costlind]
+                            costlind=impdat[4].rfind('f')
+                            costfortwo=impdat[4][costind+3:costlind]
                             pres.append(costfortwo)
                             fileq.close()
                     else:
