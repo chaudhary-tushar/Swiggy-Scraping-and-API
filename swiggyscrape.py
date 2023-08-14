@@ -106,12 +106,14 @@ class City:
             print("File exists in the folder.")
 
         else:
-            response=requests.get(url)
+            headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.3"}
+            response=requests.get(url,headers=headers)
+            #response=requests.get(url)
             soup=BeautifulSoup(response.content,'html.parser')
             links=soup.find_all('a')
             with open(file_path,'w',encoding='utf-8') as file1:
                 for link in links:
-                    if(link.get('href')!=None and link.get('href')[0:5]=="/city"  ):
+                    if(link.get('href')!=None and link.get('href')[0:5]=="/city" and link.get('href')[-11:]!="restaurants" ):
                         lkd=url+link.get('href')
                         if lkd not in city_links:
                             file1.write(lkd+'\n')
@@ -140,19 +142,21 @@ class Restaurant_finder:
         hname=hname.replace("\n","")    # Pre_name (contains only name), Restaurants_link (contains links to restaurants)
         H_name=hname.capitalize()       # and restaurants name (which include all the information like promotion and address)
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument("--blink-settings=imagesEnabled=false")
-        options.add_argument("--disable-javascript")
-        options.add_argument("--disable-animations")
+        options.add_argument('--ignore-certificate-errors')
+        #options.add_argument('--headless')
+        #options.add_argument("--blink-settings=imagesEnabled=false")
+        #options.add_argument("--disable-javascript")
+        #options.add_argument("--disable-animations")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         driver = webdriver.Chrome(options=options)
+        print(url)
         driver.get(url)
         print(f"working on {H_name}")
         wait = WebDriverWait(driver, 5)
 
         # wait for the element to be clickable 
         #updated on 15 march 2023 since swiggy update changing the label to class
-        element = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='sc-dmyDGi dpnlFb style__TextContainerMain-sc-btx547-3 fObFec']")))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='sc-beySbM clsZsT style__TextContainerMain-sc-btx547-3 fObFec']")))
 
 
 
@@ -162,12 +166,11 @@ class Restaurant_finder:
         search_box.send_keys(H_name)
         
         wait = WebDriverWait(driver, 5)
-        results=wait.until(EC.element_to_be_clickable((By.XPATH, f"//body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]")))                                             
+        results=wait.until(EC.element_to_be_clickable((By.XPATH, f"//body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]"))) 
         results.click()
         try:
             wait = WebDriverWait(driver, 15)
-            element = wait.until(EC.presence_of_element_located((By.XPATH,"//div[@class='BZR3j']")))
-            countres=element.text
+            element = wait.until(EC.presence_of_element_located((By.XPATH,"//h2[normalize-space()='Popular restaurants near me']")))
             
         except  TimeoutException:
             print(f"{H_name} restaurants not listed ")
@@ -176,22 +179,19 @@ class Restaurant_finder:
         
         else:
             scroll_pause_time = 1  # You can set your own pause time. dont slow too slow that might not able to load more data
-            screen_height = driver.execute_script("return window.screen.height;")  # get the screen height of the web
             i = 1
 
-            while True:
-                # scroll one screen height each time
-                driver.execute_script("window.scrollTo(0, {screen_height}*{i});".format(screen_height=screen_height, i=i))
-                i += 1
+            toscroll=True
+            while toscroll==True and i<5:
                 time.sleep(scroll_pause_time)
-                # update scroll height each time after scrolled, as the scroll height can change after we scrolled the page
-                scroll_height = driver.execute_script("return document.body.scrollHeight;")
-                # Break the loop when the height we need to scroll to is larger than the total scroll height
-                if (screen_height) * i > scroll_height:
-                    break
-                # if i>5:
-                #     break
-                
+                try:
+                    wait = WebDriverWait(driver, 2)
+                    more=wait.until(EC.element_to_be_clickable((By.XPATH,f"//div[contains(text(),'Show more')]")))
+                    more.click()
+                    toscroll=True
+                except:
+                    toscroll=False 
+                i+=1   
             # Wait for the search results to load and get the HTML content of the page
 
             html = driver.page_source
@@ -200,21 +200,15 @@ class Restaurant_finder:
             # Parse the HTML content using Beautiful Soup
             soup = BeautifulSoup(html, 'html.parser')
 
-            # Find all the restaurant names on the page and print them to the console
+            # # Find all the restaurant names on the page and print them to the console
             fp=Folder()
-            specific_div = soup.find('div', {'id': 'all_restaurants'})
-
-            # find all div elements with class _3XX_A inside the specific div
-            named = specific_div.find_all('div', {'class': '_3XX_A'})
+            link_elements = soup.find_all('a', class_='RestaurantList__RestaurantAnchor-sc-1d3nl43-3 kcEtBq')
+            names=[]
+            links=[]
+            for linkd in link_elements:
+                links.append(linkd.get('href'))
+                names.append(linkd.find('div', class_='sc-beySbM cwvucc').text.strip())
             
-            # named = soup.find_all('div', {'class': '_3XX_A'})
-            clean_name = lambda name: name.text.replace("Promoted", "")
-            names=[clean_name(name) for name in named]
-            my_div = soup.find('div', {'id': 'all_restaurants'})
-            linkd = my_div.find_all('a')
-            check_link = lambda link: "https://www.swiggy.com" + link.get("href") if link.get("href") is not None and link.get("href").startswith("/rest") else None
-            links=[check_link(link) for link in linkd ]
-            links=[link for link in links if link is not None]
             file_path1=fp.getdbfile("det_links",H_name)
             data_dict = {"Details": names, "Links":links }
 
@@ -262,7 +256,7 @@ class Multi_res_links:
                     lind=line.rfind(',')
                     link=line[lind+1:]
                     clinks.append(link.strip())
-            rlinks.append(clinks[:20])          #remove the slicing in finished version
+            rlinks.append(clinks[10:11])          #remove the slicing in finished version
             
         return rlinks
     

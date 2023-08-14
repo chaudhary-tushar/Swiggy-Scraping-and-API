@@ -5,6 +5,7 @@ import multiprocessing as mp
 from multiprocessing import Pool, cpu_count
 import time
 from datetime import datetime
+import sys
 
 
 
@@ -18,21 +19,19 @@ if __name__=="__main__":
     city_name_list=city[1] ###array of city names
     city_names=city_name_list
     print("appending total cities = ",len(city_names))
-
-    five=city_url_list
-    print(city_names)
+    five=city_url_list[:2]
+    print(five)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
-    
-    
+
     ########initializing rf as class for finding restaurant###########
     
     rf=ss.Restaurant_finder()
     times=time.time()
 
     num_processes1 = cpu_count()
-    print(f"Running {num_processes1} processes in parallel...")
-    with Pool(num_processes1) as p:
+    print(f"Running {2} processes in parallel...")
+    with Pool(2) as p:
         results=p.map(rf.rest_list,five)
     redcity = list(filter(lambda x: x is not None, results))
     
@@ -47,7 +46,7 @@ if __name__=="__main__":
         fileq.close()
     
     print(redcity)
-    
+    sys.exit()
     if(len(redcity)!=0):
         red=ss.Managelists()
         for citi in redcity:
@@ -81,6 +80,8 @@ if __name__=="__main__":
     # with ThreadPoolExecutor(max_workers=8) as executor:
     #             executor.map(menu.mpmenu, city_res_links,city_names)
     #             executor.shutdown(wait=True)
+
+    sys.exit()
     
     Arrays=ss.restArr()
     carr=Arrays.city_makearr()
