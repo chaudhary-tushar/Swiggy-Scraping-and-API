@@ -13,13 +13,16 @@ if __name__=="__main__":
     timestart=time.time()
     url="https://www.swiggy.com"
 
+    x,y=562,563
+    
+
     city1=ss.City()
     city=city1.city(url)
     city_url_list=city[0]  ###array of url links
     city_name_list=city[1] ###array of city names
-    city_names=city_name_list
+    city_names=city_name_list[x:y]
     print("appending total cities = ",len(city_names))
-    five=city_url_list[:2]
+    five=city_url_list[x:y]
     print(five)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -30,15 +33,14 @@ if __name__=="__main__":
     times=time.time()
 
     num_processes1 = cpu_count()
-    print(f"Running {2} processes in parallel...")
-    with Pool(2) as p:
+    print(f"Running {4} processes in parallel...")
+    with Pool(4) as p:
         results=p.map(rf.rest_list,five)
     redcity = list(filter(lambda x: x is not None, results))
-    
     timee=time.time()
     runtimez=timee-times
-    with open("data.csv",'a',encoding='utf-8') as fileq:
-        fileq.write(f"Ran ON : {date_time}\n")
+    with open("atad.csv",'a',encoding='utf-8') as fileq:
+        fileq.write(f"Ran ON : {date_time}\nRan with 4 cores\n")
         fileq.write(f"time taken to parse {len(five)} cities is {runtimez}\n")
         for names in redcity:
             fileq.write(names + " , ")
@@ -53,7 +55,7 @@ if __name__=="__main__":
             city_names,five= red.remcity(city_names,five,citi)
             
     
-    
+    print(city_names)
     # #######################uncomment here############
     
     pre=ss.Multi_res_links()

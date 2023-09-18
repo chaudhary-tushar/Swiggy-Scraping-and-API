@@ -1,0 +1,90 @@
+Ran ON : 2023-08-21 15:38:07
+time taken to parse 5 cities is 38.380781173706055
+0
+Ran ON : 2023-09-09 01:14:34
+time taken to parse 2 cities is 167.16520023345947
+0
+Ran ON : 2023-09-10 02:58:56
+time taken to parse 10 cities is 513.2064430713654
+0
+Ran ON : 2023-09-10 03:09:03
+time taken to parse 10 cities is 174.0616593360901
+0
+Ran ON : 2023-09-10 03:14:06
+time taken to parse 10 cities is 314.68454217910767
+0
+Ran ON : 2023-09-10 03:20:00
+time taken to parse 10 cities is 212.36974596977234
+0
+Ran ON : 2023-09-10 03:25:14
+time taken to parse 10 cities is 122.21618366241455
+0
+Ran ON : 2023-09-10 03:27:29
+time taken to parse 10 cities is 183.05766034126282
+0
+Ran ON : 2023-09-10 03:59:19
+time taken to parse 10 cities is 121.25676465034485
+0
+Ran ON : 2023-09-10 04:18:13
+time taken to parse 10 cities is 107.53181958198547
+0
+Ran ON : 2023-09-10 04:25:06
+time taken to parse 20 cities is 380.8543050289154
+0
+Ran ON : 2023-09-10 05:27:56
+time taken to parse 10 cities is 78.52254557609558
+0
+Ran ON : 2023-09-10 05:33:15
+time taken to parse 5 cities is 99.2625024318695
+0
+Ran ON : 2023-09-10 05:37:55
+time taken to parse 4 cities is 49.896100759506226
+0
+Ran ON : 2023-09-10 05:39:14
+time taken to parse 30 cities is 345.36101746559143
+0
+Ran ON : 2023-09-10 06:28:36
+time taken to parse 2 cities is 19.948821306228638
+0
+Ran ON : 2023-09-10 06:29:48
+time taken to parse 2 cities is 19.310513257980347
+0
+Ran ON : 2023-09-10 06:30:38
+time taken to parse 2 cities is 19.30193257331848
+Budhwal , 1
+Ran ON : 2023-09-11 02:50:24
+time taken to parse 200 cities is 2614.3168110847473
+0
+
+
+Ran ON : 2023-09-15 03:53:18
+time taken to parse 1 cities is 14.672806978225708
+Budhwal + TimeoutException , 1
+Ran ON : 2023-09-16 23:57:15
+time taken to parse 100 cities is 1821.4134056568146
+0
+Ran ON : 2023-09-17 01:59:30
+time taken to parse 50 cities is 577.1241235733032
+Budhwal + TimeoutException , 1
+Ran ON : 2023-09-17 02:10:32
+time taken to parse 50 cities is 516.0583429336548
+0
+Ran ON : 2023-09-17 03:02:41
+time taken to parse 100 cities is 1452.355865240097
+Gopalganj + NoSuchElementException , Gorakhpur + NoSuchElementException , Hapur + NoSuchElementException , Kannauj + NoSuchElementException , Kashipur + TimeoutException , Kayamkulam + NoSuchElementException , 6
+Ran ON : 2023-09-17 04:10:08
+time taken to parse 50 cities is 900.7457602024078
+Kota + NoSuchElementException , Kotdwar + NoSuchElementException , Kottarakkara + NoSuchElementException , Kurnool + NoSuchElementException , Kushalnagar + NoSuchElementException , Lucknow + NoSuchElementException , Machilipatnam + TimeoutException , Mancherial + TimeoutException , Mandi-dabwali + NoSuchElementException , 9
+Ran ON : 2023-09-17 04:26:03
+time taken to parse 100 cities is 1450.6931483745575
+Mehsana + NoSuchElementException , Morena + WebDriverException , Muzaffarpur + TimeoutException , Nagpur + WebDriverException , Naharlagun + NoSuchElementException , Nakodar + NoSuchElementException , Nalbari + WebDriverException , Nanded + WebDriverException , Nangal + NoSuchElementException , Naraingarh + WebDriverException , Narnaul + WebDriverException , Narsinghpur + WebDriverException , Neyveli + NoSuchElementException , Nizamabad + NoSuchElementException , Ooty + NoSuchElementException , Patiala + NoSuchElementException , Phagwara + NoSuchElementException , 17
+Ran ON : 2023-09-17 04:50:46
+time taken to parse 50 cities is 639.5180366039276
+Ramanagara + NoSuchElementException , Rewa + WebDriverException , Sangamner + NoSuchElementException , 3
+Ran ON : 2023-09-17 05:01:42
+time taken to parse 50 cities is 568.7215256690979
+Shimla + TimeoutException , Shirdi-city + NoSuchElementException , Thiruvalla + WebDriverException , 3
+Ran ON : 2023-09-18 00:43:55
+Ran with 4 cores
+time taken to parse 595 cities is 9100.924644470215
+Asansol + NoSuchElementException , Budhwal + TimeoutException , Halol + NoSuchElementException , Jorhat + NoSuchElementException , Mysore + TimeoutException , Narnaul + TimeoutException , Nirmal + TimeoutException , Shimla + TimeoutException , Sullurpeta + NoSuchElementException , Tirupur + TimeoutException , 10

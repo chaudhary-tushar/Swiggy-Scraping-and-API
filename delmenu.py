@@ -107,6 +107,24 @@ def delfunc(x):
         if len(emp_path)!=0:
             delemp(emp_path)
 
+
+def totallist():
+    folder_path="C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
+    listed_cities=os.listdir(folder_path)
+    print(f"Total listed cities are {len(listed_cities)}")
+    totcnt=0
+    for city in listed_cities:
+        link_path=os.path.join(folder_path,city)
+        file_path=f"{link_path}/restaurant_det_links_{city}.csv"
+        try:
+            with open(file_path,'r',encoding='utf-8') as file1:
+                line_count = sum(1 for line in file1)
+                totcnt+=line_count-1
+        except FileNotFoundError:
+            print(f'File not found: {file_path}')
+            continue
+    return totcnt
+
 #input 1 =counting menu files and outputs in processing data
 #input 2 = deletes all menu files
 #input 3 = checks if a menu file is empty or has size == 0 bytes
@@ -114,4 +132,4 @@ def delfunc(x):
 #input 5 = checks if a menu file is empty or has size == 0 bytes and deletes it
 
 #delfunc(5)
-
+print(totallist())

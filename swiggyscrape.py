@@ -10,6 +10,7 @@ Step5: CheckF             :     This function checks if the website listed value
 '''
 import requests
 import os
+import traceback
 import multiprocessing as mp
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -20,12 +21,13 @@ from bs4 import BeautifulSoup
 import mysql.connector as connector
 import pymongo
 import psycopg2
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException,ElementNotInteractableException,ElementNotSelectableException,ElementNotVisibleException,NoAlertPresentException,NoSuchFrameException,NoSuchWindowException,SessionNotCreatedException
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
 import pandas as pd
 
 
@@ -132,6 +134,7 @@ class City:
 
 class Restaurant_finder:
     '''This class is to crawl through all the city links from city.csv and print them in their named folder'''
+
     
     def rest_list(self,urq):
         '''This function takes url as an argument and outputs csv files containing: restaurant details/links/prenames'''
@@ -143,55 +146,88 @@ class Restaurant_finder:
         H_name=hname.capitalize()       # and restaurants name (which include all the information like promotion and address)
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
-        #options.add_argument('--headless')
-        #options.add_argument("--blink-settings=imagesEnabled=false")
-        #options.add_argument("--disable-javascript")
-        #options.add_argument("--disable-animations")
+        options.add_argument('--headless')
+        options.add_argument("--blink-settings=imagesEnabled=false")
+        options.add_argument("--disable-javascript")
+        options.add_argument("--disable-animations")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        driver = webdriver.Chrome(options=options)
-        print(url)
-        driver.get(url)
+        #driver = webdriver.Chrome(options=options)
+        # print(url)
+        chrome_driver_path = "C:/Users/tusha/Desktop/vscode/SWIGGY/driver/chromedriver.exe"
+        service=Service(executable_path=chrome_driver_path)
+        driver = webdriver.Chrome(service=service,options=options)
         print(f"working on {H_name}")
+        try:
+            driver.get(url)
+        except (TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException,ElementNotInteractableException,ElementNotSelectableException,ElementNotVisibleException,NoAlertPresentException,NoSuchFrameException,NoSuchWindowException,SessionNotCreatedException) as e:
+            print(f"{H_name} restaurants not listed 1st")
+            driver.quit()
+            exp_msg=type(e).__name__
+            fault=f"{H_name} + {exp_msg}"
+            return fault
+        
         wait = WebDriverWait(driver, 5)
 
         # wait for the element to be clickable 
         #updated on 15 march 2023 since swiggy update changing the label to class
-        element = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='sc-beySbM clsZsT style__TextContainerMain-sc-btx547-3 fObFec']")))
-
-
+        try:
+            element = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='sc-beySbM clsZsT style__TextContainerMain-sc-btx547-3 fObFec']")))
+        except (TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException,ElementNotInteractableException,ElementNotSelectableException,ElementNotVisibleException,NoAlertPresentException,NoSuchFrameException,NoSuchWindowException,SessionNotCreatedException) as e:
+            print(f"{H_name} restaurants not listed 2nd")
+            driver.quit()
+            exp_msg=type(e).__name__
+            fault=f"{H_name} + {exp_msg}"
+            return fault
 
         # click the element
         element.click()
-        search_box=driver.find_element(By.XPATH, "//input[@placeholder='Search for area, street name...']")
-        search_box.send_keys(H_name)
+        try:
+            wait = WebDriverWait(driver, 15)
+            search_box=driver.find_element(By.XPATH, "//input[@placeholder='Search for area, street name...']")
+            search_box.send_keys(H_name)
+        except (TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException,ElementNotInteractableException,ElementNotSelectableException,ElementNotVisibleException,NoAlertPresentException,NoSuchFrameException,NoSuchWindowException,SessionNotCreatedException) as e:
+            print(f"{H_name} restaurants not listed  3rd")
+            driver.quit()
+            exp_msg=type(e).__name__
+            fault=f"{H_name} + {exp_msg}"
+            return fault
         
-        wait = WebDriverWait(driver, 5)
-        results=wait.until(EC.element_to_be_clickable((By.XPATH, f"//body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]"))) 
-        results.click()
+        try:
+            wait = WebDriverWait(driver, 5)
+            results=wait.until(EC.element_to_be_clickable((By.XPATH, f"//body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]"))) 
+            results.click()
+        except (TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException,ElementNotInteractableException,ElementNotSelectableException,ElementNotVisibleException,NoAlertPresentException,NoSuchFrameException,NoSuchWindowException,SessionNotCreatedException) as e:
+            print(f"{H_name} restaurants not listed 4th")
+            driver.quit()
+            exp_msg=type(e).__name__
+            fault=f"{H_name} + {exp_msg}"
+            return fault
         try:
             wait = WebDriverWait(driver, 15)
             element = wait.until(EC.presence_of_element_located((By.XPATH,"//h2[normalize-space()='Popular restaurants near me']")))
             
-        except  TimeoutException:
-            print(f"{H_name} restaurants not listed ")
+        except (TimeoutException,NoSuchElementException,WebDriverException,StaleElementReferenceException,ElementNotInteractableException,ElementNotSelectableException,ElementNotVisibleException,NoAlertPresentException,NoSuchFrameException,NoSuchWindowException,SessionNotCreatedException) as e:
+            print(f"{H_name} restaurants not listed  5th")
             driver.quit()
-            return H_name
+            exp_msg=type(e).__name__
+            fault=f"{H_name} + {exp_msg}"
+            return fault
         
         else:
             scroll_pause_time = 1  # You can set your own pause time. dont slow too slow that might not able to load more data
             i = 1
 
             toscroll=True
-            while toscroll==True and i<5:
+            while toscroll==True:
                 time.sleep(scroll_pause_time)
                 try:
-                    wait = WebDriverWait(driver, 2)
+                    wait = WebDriverWait(driver, 5)
                     more=wait.until(EC.element_to_be_clickable((By.XPATH,f"//div[contains(text(),'Show more')]")))
                     more.click()
                     toscroll=True
                 except:
                     toscroll=False 
-                i+=1   
+                #i+=1   
             # Wait for the search results to load and get the HTML content of the page
 
             html = driver.page_source
@@ -237,8 +273,9 @@ class Restaurant_finder:
 
             # Append the new DataFrame to the existing one and write to a CSV file
             df.to_csv(file_path1, mode="a", index=False, header=existing_df.empty)
-            
-                   
+        
+
+
 class Multi_res_links:
     '''This class is to take restaurant_links{citynames} from different folders and output them as an array'''
     
@@ -256,7 +293,7 @@ class Multi_res_links:
                     lind=line.rfind(',')
                     link=line[lind+1:]
                     clinks.append(link.strip())
-            rlinks.append(clinks[10:11])          #remove the slicing in finished version
+            rlinks.append(clinks[10:12])          #remove the slicing in finished version
             
         return rlinks
     
@@ -319,7 +356,7 @@ class MenuBuilder:
                     # Loop through the paragraphs and print their text content
                     for paragraph in paragraphs:
                         file1.write(paragraph.text+'\n')
-                        
+
     
     def mpmenu(self,crlink,city_name):
         '''This function takes argument as links array and city_name and calls menu function parallely'''
