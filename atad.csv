@@ -88,3 +88,60 @@ Ran ON : 2023-09-18 00:43:55
 Ran with 4 cores
 time taken to parse 595 cities is 9100.924644470215
 Asansol + NoSuchElementException , Budhwal + TimeoutException , Halol + NoSuchElementException , Jorhat + NoSuchElementException , Mysore + TimeoutException , Narnaul + TimeoutException , Nirmal + TimeoutException , Shimla + TimeoutException , Sullurpeta + NoSuchElementException , Tirupur + TimeoutException , 10
+
+Ran ON : 2023-09-20 13:50:51 Pooling
+Ran with 4 cores
+time taken to parse 3 cities is 27.400217056274414
+0
+Ran ON : 2023-09-20 13:54:22  threading
+Ran with 4 cores
+time taken to parse 3 cities is 23.6041898727417
+0
+Ran ON : 2024-01-26 03:27:13
+Ran with 4 cores
+time taken to parse 3 cities is 49.789217710494995
+0
+Ran ON : 2024-01-26 03:28:24
+Ran with 4 cores
+time taken to parse 3 cities is 60.007224559783936
+0
+Ran ON : 2024-01-26 04:16:55
+Ran with 4 cores
+time taken to parse 1 cities is 166.86985445022583
+0
+Ran ON : 2024-01-26 04:20:52
+Ran with 4 cores
+time taken to parse 1 cities is 29.9374737739563
+0
+Ran ON : 2024-01-26 04:23:25
+Ran with 4 cores
+time taken to parse 1 cities is 33.125967502593994
+0
+Ran ON : 2024-01-26 10:05:59
+Ran with 4 cores
+time taken to parse 1 cities is 43.20072412490845
+0
+Ran ON : 2024-01-26 10:13:37
+Ran with 4 cores
+time taken to parse 1 cities is 35.657493352890015
+0
+Ran ON : 2024-01-26 10:14:56
+Ran with 4 cores
+time taken to parse 1 cities is 28.543484687805176
+Bangalore + TimeoutException , 1
+Ran ON : 2024-01-26 10:15:29
+Ran with 4 cores
+time taken to parse 1 cities is 36.582714557647705
+0
+Ran ON : 2024-01-26 10:17:19
+Ran with 4 cores
+time taken to parse 1 cities is 34.96986126899719
+0
+Ran ON : 2024-01-26 10:24:45
+Ran with 4 cores
+time taken to parse 1 cities is 29.227485418319702
+0
+Ran ON : 2024-01-26 10:39:22
+Ran with 4 cores
+time taken to parse 1 cities is 38.59751033782959
+0

@@ -146,10 +146,11 @@ class Restaurant_finder:
         H_name=hname.capitalize()       # and restaurants name (which include all the information like promotion and address)
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
-        options.add_argument('--headless')
-        options.add_argument("--blink-settings=imagesEnabled=false")
-        options.add_argument("--disable-javascript")
-        options.add_argument("--disable-animations")
+        #options.add_argument('--headless')
+        #options.add_argument("--blink-settings=imagesEnabled=false")
+        #options.add_argument("--disable-javascript")
+        options.binary_location = "C:/Users/tusha/AppData/Local/BraveSoftware/Brave-Browser/Application/brave.exe"
+        #options.add_argument("--disable-animations")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         #driver = webdriver.Chrome(options=options)
         # print(url)
@@ -218,7 +219,7 @@ class Restaurant_finder:
             i = 1
 
             toscroll=True
-            while toscroll==True:
+            while toscroll==True and i < 5:
                 time.sleep(scroll_pause_time)
                 try:
                     wait = WebDriverWait(driver, 5)
@@ -227,7 +228,7 @@ class Restaurant_finder:
                     toscroll=True
                 except:
                     toscroll=False 
-                #i+=1   
+                i+=1   
             # Wait for the search results to load and get the HTML content of the page
 
             html = driver.page_source
@@ -244,7 +245,7 @@ class Restaurant_finder:
             for linkd in link_elements:
                 links.append(linkd.get('href'))
                 names.append(linkd.find('div', class_='sc-beySbM cwvucc').text.strip())
-            
+            print(H_name, len(names), len(links))
             file_path1=fp.getdbfile("det_links",H_name)
             data_dict = {"Details": names, "Links":links }
 
@@ -293,7 +294,7 @@ class Multi_res_links:
                     lind=line.rfind(',')
                     link=line[lind+1:]
                     clinks.append(link.strip())
-            rlinks.append(clinks[10:12])          #remove the slicing in finished version
+            rlinks.append(clinks[1:2])          #remove the slicing in finished version
             
         return rlinks
     
@@ -301,23 +302,29 @@ class Multi_res_links:
 class DivFinder:
     def div_finder(self,url):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument("--blink-settings=imagesEnabled=false")
-        options.add_argument("--disable-javascript")
-        options.add_argument("--disable-animations")
+        # options.add_argument('--headless')
+        # options.add_argument("--blink-settings=imagesEnabled=false")
+        # options.add_argument("--disable-javascript")
+        # options.add_argument("--disable-animations")
+        options.add_argument('--ignore-certificate-errors')
+        options.add_argument("--enable-chrome-browser-cloud-management")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        driver = webdriver.Chrome(options=options)
+        chrome_driver_path = "C:/Users/tusha/Desktop/vscode/SWIGGY/driver/chromedriver.exe"
+        service=Service(executable_path=chrome_driver_path)
+        driver = webdriver.Chrome(service=service,options=options)
+        driver.get(url)
         driver.implicitly_wait(10)
-        driver.get(url) 
-
         # Get the HTML source code of the page using Selenium
         html = driver.page_source
-
+        driver.close()
         # Parse the HTML content using Beautiful Soup
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, 'lxml')
+        p_elements = soup.find_all('p', class_='ScreenReaderOnly_screenReaderOnly___ww-V', tabindex=0)
+        p_element = p_elements[0]
 
         # Find all the divs on the page with class 'my-class'
-        divs = soup.find_all('div')
+        specific_div = soup.find('div', class_='nDVxx')
+        divs = specific_div.find_all('div')
 
         dids=[]
         # Loop through each div and print its text content
@@ -326,8 +333,7 @@ class DivFinder:
             if div_id:
                 dids.append(div) 
         # Close the Selenium webdriver
-        driver.close()
-        return dids
+        return p_element, dids
     
 class MenuBuilder:
     '''This class builds the menus of different restaurant and stores it in /txt_files/city/menus/*'''
@@ -346,8 +352,10 @@ class MenuBuilder:
         else:
             print(f"{file_path} does not exists")
             DI=DivFinder()
-            divs = DI.div_finder(url)[:-1]
+            res_info, divs = DI.div_finder(url)
+            print("reached menu writing stage with restaurant details as, ", res_info.text)
             with open(file_path,'w',encoding='utf-8') as file1:
+                file1.write(res_info.text+ '\n')
                 for div in divs:
                     file1.write('\n'+div.get('id')+'\n'+'\n')
                     paragraphs = div.find_all('p', {'class': 'ScreenReaderOnly_screenReaderOnly___ww-V'})
@@ -355,7 +363,7 @@ class MenuBuilder:
                     
                     # Loop through the paragraphs and print their text content
                     for paragraph in paragraphs:
-                        file1.write(paragraph.text+'\n')
+                        file1.write(paragraph.text.strip().replace('\n', '')+'\n')
 
     
     def mpmenu(self,crlink,city_name):

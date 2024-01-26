@@ -11,31 +11,37 @@ import sys
 
 if __name__=="__main__":
     timestart=time.time()
-    url="https://www.swiggy.com"
+    url = "https://www.swiggy.com"
 
-    x,y=562,563
+    x,y = 1,2
     
 
-    city1=ss.City()
-    city=city1.city(url)
-    city_url_list=city[0]  ###array of url links
-    city_name_list=city[1] ###array of city names
-    city_names=city_name_list[x:y]
+    city1 = ss.City()
+    city = city1.city(url)
+    city_url_list = city[0]  ###array of url links
+    city_name_list = city[1] ###array of city names
+    city_names = city_name_list[x:y]
     print("appending total cities = ",len(city_names))
-    five=city_url_list[x:y]
+    five = city_url_list[x:y]
     print(five)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
+    
 
     ########initializing rf as class for finding restaurant###########
     
-    rf=ss.Restaurant_finder()
-    times=time.time()
+    rf = ss.Restaurant_finder()
+    times = time.time()
 
     num_processes1 = cpu_count()
     print(f"Running {4} processes in parallel...")
-    with Pool(4) as p:
-        results=p.map(rf.rest_list,five)
+    # with Pool(4) as p:
+    #     results=p.map(rf.rest_list,five)
+    # redcity = list(filter(lambda x: x is not None, results))
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+    # Use the map method to execute rest_list concurrently for each item in the 'five' list
+        results = list(executor.map(rf.rest_list, five))
     redcity = list(filter(lambda x: x is not None, results))
     timee=time.time()
     runtimez=timee-times
@@ -48,7 +54,7 @@ if __name__=="__main__":
         fileq.close()
     
     print(redcity)
-    sys.exit()
+    
     if(len(redcity)!=0):
         red=ss.Managelists()
         for citi in redcity:
@@ -56,7 +62,6 @@ if __name__=="__main__":
             
     
     print(city_names)
-    # #######################uncomment here############
     
     pre=ss.Multi_res_links()
     city_res_links=pre.get_links(city_names)  ###gets the 2-D array of restaurant links
