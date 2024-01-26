@@ -131,5 +131,5 @@ def totallist():
 #input 4 = Checks if there are duplicates links in restaurant_links_{city_name}.csv
 #input 5 = checks if a menu file is empty or has size == 0 bytes and deletes it
 
-#delfunc(5)
+delfunc(1)
 print(totallist())

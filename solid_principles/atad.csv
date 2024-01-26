@@ -1,0 +1,8 @@
+Ran ON : 2024-01-27 02:02:29
+Ran with 4 cores
+time taken to parse 1 cities is 24.841135025024414
+0
+Ran ON : 2024-01-27 02:17:19
+Ran with 4 cores
+time taken to parse 594 cities is 2940.7482035160065
+Chidambaram + TimeoutException , Gudur + TimeoutException , Mahbubnagar + TimeoutException , 3
