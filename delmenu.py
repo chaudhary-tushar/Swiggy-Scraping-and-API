@@ -132,4 +132,5 @@ def totallist():
 #input 5 = checks if a menu file is empty or has size == 0 bytes and deletes it
 
 delfunc(1)
+delfunc(3)
 print(totallist())

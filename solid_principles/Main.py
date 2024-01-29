@@ -29,41 +29,41 @@ if __name__ == "__main__":
     city = city1.city(url)
     city_url_list = city[0]
     city_name_list = city[1]
-    city_names = city_name_list[x:y]
+    city_names = city_name_list
     print("appending total cities = ", len(city_names))
-    five = city_url_list[x:y]
+    five = city_url_list
     print(five)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    rf = restaurants.Restaurant_finder()
-    times = time.time()
+    # rf = restaurants.Restaurant_finder()
+    # times = time.time()
 
-    num_processes1 = cpu_count()
-    print(f"Running {4} processes in parallel...")
+    # num_processes1 = cpu_count()
+    # print(f"Running {4} processes in parallel...")
     
-    # with Pool(4) as p:
-    #     results=p.map(rf.rest_list,five)
+    # # with Pool(4) as p:
+    # #     results=p.map(rf.rest_list,five)
+    # # redcity = list(filter(lambda x: x is not None, results))
+
+    # with ThreadPoolExecutor(max_workers=4) as executor:
+    #     results = list(executor.map(rf.rest_list, five))
     # redcity = list(filter(lambda x: x is not None, results))
+    # timee = time.time()
+    # runtimez = timee-times
+    # with open("atad.csv", 'a', encoding='utf-8') as fileq:
+    #     fileq.write(f"Ran ON : {date_time}\nRan with 4 cores\n")
+    #     fileq.write(f"time taken to parse {len(five)} cities is {runtimez}\n")
+    #     for names in redcity:
+    #         fileq.write(names + " , ")
+    #     fileq.write(str(len(redcity))+"\n")
+    #     fileq.close()
 
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        results = list(executor.map(rf.rest_list, five))
-    redcity = list(filter(lambda x: x is not None, results))
-    timee = time.time()
-    runtimez = timee-times
-    with open("atad.csv", 'a', encoding='utf-8') as fileq:
-        fileq.write(f"Ran ON : {date_time}\nRan with 4 cores\n")
-        fileq.write(f"time taken to parse {len(five)} cities is {runtimez}\n")
-        for names in redcity:
-            fileq.write(names + " , ")
-        fileq.write(str(len(redcity))+"\n")
-        fileq.close()
+    # print(redcity)
 
-    print(redcity)
-
-    if (len(redcity) != 0):
-        for citi in redcity:
-            city_names, five = remcity(city_names, five, citi)
+    # if (len(redcity) != 0):
+    #     for citi in redcity:
+    #         city_names, five = remcity(city_names, five, citi)
 
     print(city_names)
 

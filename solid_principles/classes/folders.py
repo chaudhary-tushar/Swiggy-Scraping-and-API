@@ -77,6 +77,6 @@ class Multi_res_links:
                     lind=line.rfind(',')
                     link=line[lind+1:]
                     clinks.append(link.strip())
-            rlinks.append(clinks[1:2])
+            rlinks.append(clinks[-10:])
             
         return rlinks

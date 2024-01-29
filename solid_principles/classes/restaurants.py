@@ -118,7 +118,7 @@ class Restaurant_finder:
             i = 1
 
             toscroll = True
-            while toscroll is True and i < 5:
+            while toscroll is True :
                 time.sleep(scroll_pause_time)
                 try:
                     wait = WebDriverWait(driver, 5)
@@ -127,7 +127,7 @@ class Restaurant_finder:
                     toscroll = True
                 except: # noqa
                     toscroll = False
-                i += 1
+                
             # Wait for the search results to load and get the HTML content of the page
 
             html = driver.page_source

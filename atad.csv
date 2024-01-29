@@ -145,3 +145,7 @@ Ran ON : 2024-01-26 10:39:22
 Ran with 4 cores
 time taken to parse 1 cities is 38.59751033782959
 0
+Ran ON : 2024-01-29 00:05:48
+Ran with 4 cores
+time taken to parse 595 cities is 6623.046916007996
+Baramati + TimeoutException , Chikhli + TimeoutException , Kanyakumari + WebDriverException , Karur + TimeoutException , 4

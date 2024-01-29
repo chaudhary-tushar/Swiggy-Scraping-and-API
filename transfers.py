@@ -7,7 +7,7 @@ import shutil
 def check(file_dest):
     cities = os.listdir(file_dest)
     absent = []
-    for city in cities[:2]:
+    for city in cities:
         name_set = set()
         menu_path = f"{file_dest}/{city}/menus"
         if not os.path.exists(menu_path):
@@ -27,10 +27,52 @@ def check(file_dest):
         menu_list = os.listdir(menu_path)
         for item in menu_list:
             if item not in name_set:
-                print(item)
+                
                 absent.append(item)
-        print('work done for ', city)
+        # print('work done for ', city)
     print(len(absent))
+
+
+def correct_city_relations(file_dest):
+    cities = os.listdir(file_dest)
+    absent = []
+    count = 0
+    city_dict = {}
+    for city in cities:
+        details_path = f"{file_dest}/{city}/restaurant_det_links_{city}.csv"
+        city_dict[city] = []
+        with open(details_path, 'r', encoding='utf-8') as file:
+            reader = csv.reader(file)
+            next(reader, None)
+            for row in reader:
+                if len(row) >= 2:
+                    link = row[1].strip()
+                    nameind=link.rfind('/')
+                    name=link[nameind+1:nameind+20]
+                    det_name = f"restaurant_{name}.csv"
+                    city_dict[city].append(det_name)
+                        
+    found = 0
+    count = 0
+    with open('correct_relation.csv', 'w', encoding='utf-8')as file1:
+        for city in cities:
+            menu_path = f"{file_dest}/{city}/menus"
+            menu_list = os.listdir(menu_path)
+            for item in menu_list:
+                if item in city_dict[city]:
+                    continue
+                else:
+                    for key, value in city_dict.items():
+                        if item  in value:
+                            if key != city:
+                                file1.write(f"{key}     :   {menu_path}/{item}\n")
+                                found += 1
+                                break
+                    count += 1
+            
+    print("total lavaris restaurants found in different city = ",found)
+    print("total lavaris restaurants with no city = ",count)
+
 
 def transfer(source, destination):
     entries = os.listdir(source)
@@ -59,4 +101,5 @@ if __name__ == "__main__":
     file_source = "C:/Users/tusha/Desktop/vscode/txt_files"
     
     check(file_dest)
+    correct_city_relations(file_dest)
     
