@@ -1,6 +1,6 @@
 '''This is the main file which calls swiggyscrape functions and classes'''
 from classes import (
-    city , folders,
+    city, folders,
     restaurants, menus,
     workers
 )
@@ -12,13 +12,14 @@ from datetime import datetime
 import sys
 
 
-def remcity(namelist,urllist,name):
+def remcity(namelist, urllist, name):
     '''This function takes city names,url names and cities to remove'''
-    name=name.capitalize()
-    index=namelist.index(name)
+    name = name.capitalize()
+    index = namelist.index(name)
     namelist.pop(index)
     urllist.pop(index)
-    return namelist,urllist
+    return namelist, urllist
+
 
 if __name__ == "__main__":
     timestart = time.time()
@@ -41,7 +42,7 @@ if __name__ == "__main__":
 
     # num_processes1 = cpu_count()
     # print(f"Running {4} processes in parallel...")
-    
+
     # # with Pool(4) as p:
     # #     results=p.map(rf.rest_list,five)
     # # redcity = list(filter(lambda x: x is not None, results))
@@ -66,7 +67,8 @@ if __name__ == "__main__":
     #         city_names, five = remcity(city_names, five, citi)
 
     print(city_names)
-
+    metric = workers.Metrics()
+    start_csv = metric.countcsv()
     pre = folders.Multi_res_links()
     city_res_links = pre.get_links(city_names)
     print("*******======*******")
@@ -92,7 +94,10 @@ if __name__ == "__main__":
     # with ThreadPoolExecutor(max_workers=8) as executor:
     #             executor.map(menu.mpmenu, city_res_links,city_names)
     #             executor.shutdown(wait=True)
+    
 
+    end_csv = metric.countcsv()
+    print(f"csv count changed from {start_csv} to {end_csv} \nNew files added = {end_csv-start_csv}")
     sys.exit()
 
     Arrays = ss.restArr()

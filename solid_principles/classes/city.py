@@ -6,6 +6,13 @@ from classes import folders as folds
 
 class City:
 
+    def __init__(self):
+        self.headers = {"User-Agent": "Mozilla/5.0 "
+                        "(Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/114.0.0.0 Safari/537.3"}
+        self.url = "https://www.swiggy.com"
+
     def city(self, url):
         fp = folds.Folder()
         folder_path = fp.get_folder()
@@ -31,11 +38,8 @@ class City:
             print("File exists in the folder.")
 
         else:
-            headers = {"User-Agent": "Mozilla/5.0 "
-                       "(Windows NT 10.0; Win64; x64) "
-                       "AppleWebKit/537.36 (KHTML, like Gecko) "
-                       "Chrome/114.0.0.0 Safari/537.3"}
-            response = requests.get(url, headers=headers)
+            headers = self.headers
+            response = requests.get(self.url, headers=headers)
             soup = BeautifulSoup(response.content, 'html.parser')
             links = soup.find_all('a')
 

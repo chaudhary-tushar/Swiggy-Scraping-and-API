@@ -1,25 +1,9 @@
-    make csv of links and details in same lines and remove pre_name files
-    pooling with 4 threads with in the way
-    sql db created with two tables right now 
-    design a more industrialized folder structure and document everything.
-
-    write database automation such that unique value are inserted everytime.
 
     stop scraping when swiggy glitches or stops maximum requests reached.
 
     rewrite csv scraping automation.
 
-    there are 65000 restaurant_links but only 26187 menus.
-
-    rewrite checkdups library.
-
-    1807-247
+    there are 190000 restaurant_links but only 41500 menus.
 
     working on testing mech (diff and rnafunc ) issue posting restaurant menu in different city folder
-
-
-    
-                        
-ins=429   
-develop more endpoints. seeking training from youtube to develop more apps and further endetail after social media app.
 

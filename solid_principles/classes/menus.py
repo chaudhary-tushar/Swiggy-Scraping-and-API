@@ -41,7 +41,7 @@ class MenuBuilder:
         fp = fols.Folder()
         file_path = fp.getmenudb(cname, name)
         if os.path.isfile(file_path):
-            print(f"{file_path} File exists!")
+            # print(f"{file_path} File exists!")
             return
 
         else:

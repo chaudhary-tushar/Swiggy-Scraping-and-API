@@ -8,6 +8,7 @@ class Sel_Driver:
     def __init__(self):
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
+        options.add_argument('--log-level=3')
         options.add_argument('--headless')
         options.add_argument("--blink-settings=imagesEnabled=false")
         options.add_argument("--disable-javascript")

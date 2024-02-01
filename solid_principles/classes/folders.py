@@ -59,24 +59,28 @@ class Folder:
         fpath = fold_path + target_path
         return fpath
 
+
 class Multi_res_links:
     '''This class is to take restaurant_links{citynames}
     from different folders and output them as an array'''
-    
-    def get_links(self,flist):
+
+    def get_links(self, flist):
         '''This function takes citynames list as a parameter and outputs a 2-D array'''
-        rlinks=[]
-        fp=Folder()
+        rlinks = []
+        fp = Folder()
         for name in flist:
-            clinks=[]
-            file1=fp.getdbfile("det_links",name)
-            with open(file1 ,'r',encoding='utf-8') as file:
-                lines=file.readlines()[1:]
-                
+            clinks = []
+            file1 = fp.getdbfile("det_links", name)
+            with open(file1, 'r', encoding='utf-8') as file:
+                lines = file.readlines()[1:]
+
                 for line in lines:
-                    lind=line.rfind(',')
-                    link=line[lind+1:]
+                    lind = line.rfind(',')
+                    link = line[lind+1:]
                     clinks.append(link.strip())
-            rlinks.append(clinks[-10:])
-            
+            if len(clinks) <= 25:
+                rlinks.append(clinks)
+            else:
+                rlinks.append(clinks[:25])
+
         return rlinks
