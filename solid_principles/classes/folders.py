@@ -78,9 +78,9 @@ class Multi_res_links:
                     lind = line.rfind(',')
                     link = line[lind+1:]
                     clinks.append(link.strip())
-            if len(clinks) <= 25:
+            if len(clinks) <= 60:
                 rlinks.append(clinks)
             else:
-                rlinks.append(clinks[:25])
+                rlinks.append(clinks[:60])
 
         return rlinks
