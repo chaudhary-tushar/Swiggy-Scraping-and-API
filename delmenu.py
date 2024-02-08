@@ -133,4 +133,4 @@ def totallist():
 
 delfunc(1)
 delfunc(3)
-print(totallist())
+# print(totallist())

@@ -97,6 +97,8 @@ if __name__ == "__main__":
     
 
     end_csv = metric.countcsv()
+    menu_dict = metric.menus_5608_dict()
+    print(metric.count_copied_menus(menu_dict))
     print(f"csv count changed from {start_csv} to {end_csv} \nNew files added = {end_csv-start_csv}")
     sys.exit()
 

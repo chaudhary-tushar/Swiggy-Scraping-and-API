@@ -1,6 +1,8 @@
 '''To delete and count restaurants in menus while testing
     To add functionality to locate and delete files with no data'''
 import os
+import csv
+import shutil
 
 
 def get_cities_from_citycsv():
@@ -19,6 +21,21 @@ def get_cities_from_dir():
     folder_path = "C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
     dir_cities = os.listdir(folder_path)
     return dir_cities
+
+
+def link_to_name(details_path):
+    city_set = set()
+    with open(details_path, 'r', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        next(reader, None)
+        for row in reader:
+            if len(row) >= 2:
+                link = row[1].strip()
+                nameind=link.rfind('/')
+                name=link[nameind+1:nameind+20]
+                det_name = f"restaurant_{name}.csv"
+                city_set.add(det_name)
+    return city_set
 
 
 class Metrics:
@@ -120,3 +137,40 @@ class Metrics:
                     testf = f"C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files/{name}/restaurant_links_{name}.csv"  # noqa
                     with open(testf, 'w', encoding='utf-16') as file2:
                         file2.writelines(unique)
+
+    def menus_5608_dict(self):
+        """Returns a dictionary of the extra menu csv's that are missing from the det_links_csv
+        and their corresponding city
+        in the form of key = (csv name <restaurant_(restaurant_name)>.csv) and
+        value = <csv path>"""
+        folder_path = "C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
+        cities = os.listdir(folder_path)
+        count = 0
+        menu_dict = {}
+        for city in cities:
+            file_path = os.path.join(folder_path, city, f"restaurant_det_links_{city}.csv")
+            got_set = set(link_to_name(file_path))
+            menu_path = os.path.join(folder_path, city, "menus")
+            menu_list = set(os.listdir(menu_path))
+            for menu in menu_list:
+                menu_file_path = os.path.join(menu_path, menu)
+                menu_dict[menu] = menu_file_path
+        # print(len(menu_dict))
+        return menu_dict
+    
+
+    def count_copied_menus(self, menu_dict):
+        folder_path = "C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
+        cities = os.listdir(folder_path)
+        count = 0
+        for city in cities:
+            file_path = os.path.join(folder_path, city, f"restaurant_det_links_{city}.csv")
+            got_set = link_to_name(file_path)
+            menu_path = os.path.join(folder_path, city, "menus")
+            menu_list = set(os.listdir(menu_path))
+            got_set.difference_update(menu_list)
+            for resto, path in menu_dict.items():
+                if resto in got_set:
+                    count += 1
+                    shutil.copy(path, menu_path)
+        return count
