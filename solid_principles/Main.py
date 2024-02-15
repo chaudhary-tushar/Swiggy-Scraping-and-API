@@ -33,7 +33,7 @@ if __name__ == "__main__":
     city_names = city_name_list
     print("appending total cities = ", len(city_names))
     five = city_url_list
-    print(five)
+    # print(five)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     #     for citi in redcity:
     #         city_names, five = remcity(city_names, five, citi)
 
-    print(city_names)
+    # print(city_names)
     metric = workers.Metrics()
     start_csv = metric.countcsv()
     pre = folders.Multi_res_links()
@@ -96,9 +96,11 @@ if __name__ == "__main__":
     #             executor.shutdown(wait=True)
     
 
-    end_csv = metric.countcsv()
+    med_csv = metric.countcsv()
+    print(med_csv)
     menu_dict = metric.menus_5608_dict()
     print(metric.count_copied_menus(menu_dict))
+    end_csv = metric.countcsv()
     print(f"csv count changed from {start_csv} to {end_csv} \nNew files added = {end_csv-start_csv}")
     sys.exit()
 
