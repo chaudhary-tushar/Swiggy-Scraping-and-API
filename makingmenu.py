@@ -2,12 +2,59 @@ import os
 import pandas as pd
 import sys
 import string
+import re 
 
-mahabaliar=[]
+class Menu_Obj:
+    def __init__(self):
+        self.item_name = ""
+        self.item_type = ""
+        self.item_cid = ""
+        self.cost = 0
+        self.description = ""
+        self.customization = False
+        self.bestseller = False
+        self.city_name = ""
+        self.rest_url_link = ""
+
+
+def get_name(line):
+    start_marker = "Veg Item. " if line.startswith('Veg Item') else "Non-veg item."
+    end_marker = ". This" if ('This item is a Bestseller' in line) else ". Costs:" 
+    start_pos = line.find(start_marker)
+    end_pos = line.find(end_marker)
+    flag = False
+    # Extract the substring
+    if start_pos != -1 and end_pos != -1:
+        extracted_substring = line[start_pos + len(start_marker):end_pos].strip()
+        flag =True
+    # print(len(extracted_substring))
+    if flag:
+        return extracted_substring
+    else:
+        print(line)
+        sys.exit()
+
+
+def get_discription(line):
+    if not ('Descrition' in line):
+        return None
+    start_marker = "Description: "
+    end_marker = "Swipe"
+    start_pos = line.find(start_marker)
+    end_pos = line.find(end_marker)
+    if start_pos != -1 and end_pos != -1:
+        extracted_substring = line[start_pos + len(start_marker):end_pos].strip()
+    
+    return extracted_substring
+    
+
+
 def maker():
+    mahabaliar = []
     fpath="C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
-    cities=os.listdir(fpath)[:1]
-    for city in cities:
+    cities=os.listdir(fpath)
+    cost_pattern = r'Costs: (\d+(?:\.\d+)?) rupees'
+    for city in cities[:25]:
         file_path=f"{fpath}/{city}/restaurant_det_links_{city}.csv"
         df=pd.read_csv(file_path)
         linkd=df['Links']
@@ -16,83 +63,57 @@ def maker():
             menname=link[inde+1:inde+20]
             menuname=f"{fpath}/{city}/menus/restaurant_{menname}.csv"
             if os.path.isfile(menuname):
-                print(menuname)
-                
+                # print(menuname)
                 with open(menuname,'r',encoding='utf-8') as file:
                     
                     lines=file.readlines()
                     section=""
-                    getname=lines[3]
-                    nameind=getname.rfind(":")
-                    name=getname[nameind+2:].rstrip("\n")
-                    resname=name.replace(",","")
             
-                    i=8
+                    i=0
                     for i  in range(len(lines)):
                         if lines[i].startswith("cid"):
                             section=lines[i].replace("cid-","").rstrip("\n")
                             break
             
                     for i in range(i,len(lines)):
-                        if len(lines[i])<=5 or not(lines[i].startswith("Veg ") or lines[i].startswith("Non-") or lines[i].startswith("cid")) :
+                        if  not(lines[i].startswith("Veg ") or lines[i].startswith("Non-") or lines[i].startswith("cid")) :
                             continue
-                        perres=[]
-                        city=city.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(city)
-                        resname=resname.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(resname)
-                        perres.append(link)
                         if lines[i].startswith("cid"):
-                            section=lines[i].replace("cid-","")
+                            section=lines[i].replace("cid-","").strip()
                             continue 
-                        type="Veg" if lines[i].startswith('Veg') else "Non-Veg"
-                        
-                        
-                        perar=lines[i].split(".")
-                        
-                        item_name=perar[1].strip()
-                        item_name=item_name.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(item_name)
-                        type=type.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(type)
-                        section=section.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(section)
-                        det=perar[2]
-                        costind=det.find(":")
-                        costlind=det.find("rupees")
-                        cost=det[costind+2:costlind]
-                        cost=cost.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(cost)
-                        customizability="" 
-                        if "customizable" in det:
-                            customizability="Yes"
-                            if "Description" in det:
-                                descind=det.find("Description:")
-                                desclind=det.find("This")
-                                description=det[descind+12:desclind]
-                            else:
-                                description="NONE"
-                            description=description.translate(str.maketrans("", "", string.punctuation))
-                            perres.append(description)
+                        menuObj = Menu_Obj()
+                        cost_match = re.search(cost_pattern, lines[i])
+                        if cost_match:
+                            menuObj.cost = int(float(cost_match.group(1)))
                         else:
-                            customizability="No"
-                            if "Description" in det:
-                                descind=det.find("Description:")
-                                desclind=det.find("Swipe")
-                                description=det[descind+12:desclind]
-                            else:
-                                description="NONE"
-                            description=description.translate(str.maketrans("", "", string.punctuation))
-                            perres.append(description)
-                        customizability=customizability.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(customizability)
-                        bestseller="Yes" if "Bestseller" in det else "No"
-                        bestseller=bestseller.translate(str.maketrans("", "", string.punctuation))
-                        perres.append(bestseller)
-                        mahabaliar.append(perres)
-    with open("menudbmngdb.csv",'w',encoding='utf-8') as file0:
-        for item in mahabaliar:
-            file0.write(f"{len(item)} : {item}\n")
+                            print(menuname,'\n',lines[i])
+                            sys.exit()
+                        city=city.translate(str.maketrans("", "", string.punctuation))
+                        menuObj.city_name = city
+                        menuObj.rest_url_link = link
+                        
+                        type="Veg" if lines[i].startswith('Veg') else "Non-Veg"
+                        type=type.translate(str.maketrans("", "", string.punctuation))
+                        menuObj.item_type = type
+                        section=section.translate(str.maketrans("", "", string.punctuation))
+                        menuObj.item_cid = section
+                        bestseller= True if "Bestseller" in lines[i] else False
+                        menuObj.bestseller = bestseller
+                        menuObj.customization = True if "customizable" in lines[i] else False
+
+                        menuObj.item_name = get_name(lines[i])
+                        if len(menuObj.item_name) > 150:
+                            print(menuname)
+                            print(lines[i])
+                        
+                        
+                        description = get_discription(lines[i])
+                        menuObj.description = description
+                        
+                        
+                        
+                        mahabaliar.append(menuObj)
+    print(len(mahabaliar))
     return mahabaliar
                 
 
