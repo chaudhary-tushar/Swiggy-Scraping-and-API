@@ -17,7 +17,7 @@ class Menu_Obj:
         self.rest_url_link = ""
 
 
-def get_name(line):
+def get_name(menucsv, line):
     start_marker = "Veg Item. " if line.startswith('Veg Item') else "Non-veg item."
     end_marker = ". This" if ('This item is a Bestseller' in line) else ". Costs:" 
     start_pos = line.find(start_marker)
@@ -31,6 +31,7 @@ def get_name(line):
     if flag:
         return extracted_substring
     else:
+        print(menucsv)
         print(line)
         sys.exit()
 
@@ -54,7 +55,7 @@ def maker():
     fpath="C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
     cities=os.listdir(fpath)
     cost_pattern = r'Costs: (\d+(?:\.\d+)?) rupees'
-    for city in cities[:25]:
+    for city in cities[100:250]:
         file_path=f"{fpath}/{city}/restaurant_det_links_{city}.csv"
         df=pd.read_csv(file_path)
         linkd=df['Links']
@@ -81,6 +82,9 @@ def maker():
                         if lines[i].startswith("cid"):
                             section=lines[i].replace("cid-","").strip()
                             continue 
+                        # if len(section) >= 50:
+                        #     print(menuname)
+                        #     print(section)
                         menuObj = Menu_Obj()
                         cost_match = re.search(cost_pattern, lines[i])
                         if cost_match:
@@ -101,7 +105,7 @@ def maker():
                         menuObj.bestseller = bestseller
                         menuObj.customization = True if "customizable" in lines[i] else False
 
-                        menuObj.item_name = get_name(lines[i])
+                        menuObj.item_name = get_name(menuname, lines[i])
                         if len(menuObj.item_name) > 150:
                             print(menuname)
                             print(lines[i])
