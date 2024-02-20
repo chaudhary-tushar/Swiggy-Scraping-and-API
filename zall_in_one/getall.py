@@ -75,7 +75,7 @@ def rest_name_occurences(menu_dict, folder_path):
     for key, value in city_res_dict.items():
         if key in menu_dict:
             continue
-        if value >= 2:
+        if value >= 1:
             result.add(key)
             tots += 1
     print(tots)

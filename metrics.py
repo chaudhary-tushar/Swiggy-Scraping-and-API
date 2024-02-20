@@ -4,6 +4,9 @@ import csv
 
 
 def link_to_name(details_path):
+    """
+    Converts Links to csv names.
+    """
     city_set = set()
     with open(details_path, 'r', encoding='utf-8') as file:
         reader = csv.reader(file)
@@ -150,14 +153,14 @@ if __name__ == "__main__":
     current_dir = os.getcwd()
     folder = 'txt_files'
     txt_files_path = os.path.join(current_dir, folder)
-    # print(find_remaining_restaurants(txt_files_path))
+    print(find_remaining_restaurants(txt_files_path))
     # cnt, ext_set = find_extra_menus(txt_files_path)
     # print(cnt)
     # print(len(ext_set))
     # print(find_home_of_ext_csv(txt_files_path, ext_set))
     # print(rev_dict_metrics(txt_files_path))
-    menu_dict = menus_5608_dict(txt_files_path)
-    print(count_copied_menus(menu_dict, txt_files_path))
+    # menu_dict = menus_5608_dict(txt_files_path)
+    # print(count_copied_menus(menu_dict, txt_files_path))
     # rest_name_occurences(menu_dict, txt_files_path)
 
 

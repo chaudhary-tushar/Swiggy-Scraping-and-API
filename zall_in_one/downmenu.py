@@ -160,8 +160,9 @@ if __name__ == "__main__":
     with open('missngres.csv', 'r',encoding='utf-8') as file:
         lines = file.readlines()
         temp = []
-        for line in lines[:801]:
-            if len(temp)==200:
+        lines.append('this')
+        for line in lines[:201]:
+            if len(temp)==50:
                 url_list.append(temp)
                 temp = []
             line = line.strip()
