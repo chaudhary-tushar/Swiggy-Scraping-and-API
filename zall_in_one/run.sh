@@ -9,22 +9,20 @@ run_command() {
         exit $exit_code
     fi
 }
-
+i=1
 # Loop to run commands with a 1-minute interval
-while true; do
+while [ $i -lt 15 ]; do
     # Run command 1
     run_command python getall.py
-
-    
 
     # Run command 2
     run_command python downmenu.py
 
-    
-
     # Run command 3
     run_command rm menus/*
-
+    ((i++))
+    
     # Wait for 1 minute
     sleep 60
+
 done

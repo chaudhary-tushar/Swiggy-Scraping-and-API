@@ -55,7 +55,7 @@ def maker():
     fpath="C:/Users/tusha/Desktop/vscode/SWIGGY/txt_files"
     cities=os.listdir(fpath)
     cost_pattern = r'Costs: (\d+(?:\.\d+)?) rupees'
-    for city in cities[100:250]:
+    for city in cities[:100]:
         file_path=f"{fpath}/{city}/restaurant_det_links_{city}.csv"
         df=pd.read_csv(file_path)
         linkd=df['Links']

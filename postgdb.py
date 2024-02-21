@@ -12,7 +12,8 @@ class restArr:
         cities=os.listdir(self.foldpath)
         kamaalarr=[]
         
-        for city in cities:
+        for city in cities[:100]:
+            count = 0
             detpath=f"{self.foldpath}/{city}/restaurant_det_links_{city}.csv"
             if (os.path.isfile(detpath)):
                 menpath=f"{self.foldpath}/{city}/menus"
@@ -50,11 +51,13 @@ class restArr:
                             if not ratings:
                                 ratings = 4.0
                             resobj = Res_Obj(city, res_name, res_url, cuisine, ratings, cost_for_two)
+                            count += 1
                             kamaalarr.append(resobj)
                             
                             fileq.close()
                     else:
                         continue
+            print(city, count)
         return kamaalarr
 
 class cityDB:
@@ -105,7 +108,6 @@ class restDB:
         print("restaurant table created")
 
     def res_insert(self, res):
-        # lst = [city name, restaurant name, rest url, cuisine, ratings, cost for two, discount, coupon]
         query = "INSERT INTO restaurant_dat(rest_name, rest_url, cuisine, ratings, cost_for_two, discount, coupon, city_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
     
         values = (res.name, res.url, res.cuisine, res.rating, res.cost_for_two, res.discount, res.coupon, res.city)
@@ -174,8 +176,8 @@ listq=arr.makear()
 print('make arr completed')
 print(len(listq))
 
-for pres in listq:
-    rdb.res_insert(pres)
+# for pres in listq:
+#     rdb.res_insert(pres)
 
 
 
